@@ -1,0 +1,134 @@
+main { /* Definindo a largura do main subtraindo o tamanho da sidebar */
+    display: block;
+    height: 100%;
+    background-color: #f5f5f5;
+    width: calc(100% - 250px);
+}
+
+main .main-content { /* Previnindo que o layout da página seja quebrado quando tiver overflow no main content */
+    padding: 5px;
+    width: 100%;
+    height: calc(100% - 90px);
+    overflow-y: auto;
+}
+
+/* ================ Alterando a scrollbar ================ */
+.main-content::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.main-content::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+}
+/* ======================================================= */
+
+.index-panel-row-venda { /* Linha principal */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 5px;
+    margin: 5px;
+    height: calc(100% - 90px);
+}
+
+.main-content .index-panel, .index-panel-btn, .index-panel-btn-new-prod, .panel-full {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 10px;
+    width: 30%;
+} /* Padronizando o tamanho da linhas e incluindo flex box */
+
+.panel-row:nth-child(1) { /* Adicionando borda na div pai das barras de pesquisa no topo da pág */
+    border: 1px solid #ccc;
+}
+
+.panel-row { /* Definindo a curvatura do input */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#divPesquisaId-index {
+    width: 20%;
+} /* Diminuindo o tamanho da div do input "id" */
+
+.index-panel-btn {
+    justify-content: flex-start;
+    width: 15%;
+} /* Posicionando e definindo largura do botão "adicionar" */
+
+.main-content .panel-full { /* Painel onde vai a tabela das vendas */
+    width: 80%;
+    height: 100%;
+    align-items: flex-start;
+    background-color: #212529;
+    background-image: url("../img/logo-sem-fundo.png"); /* Incluindo a logo de fundo */
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center; /* Posicionando a logo */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.index-panel-info-venda { /* Div pai do lado direito, onde vai as informações da venda, ocupa 20% */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 20%;
+}
+
+.index-panel-info { /* Div onde tem on inputs das informações da venda */
+    width: 85%;
+}
+
+.index-panel-info-50 { /* Div onde vai ocupar metade do espaço disponível para 2 inputs */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 75%;
+}
+
+.index-panel-info-btn { /* Div pai dos botões de confirmar e cancelar a venda */ 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 85%;
+}
+
+fieldset legend {
+    font-size: 20px;
+}
+
+/* Remover as setas de mais e menos do input númerico */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@media screen and (max-height: 770px) {
+    .index-panel-info-venda {
+            /* Div pai do lado direito, onde vai as informações da venda, ocupa 20% */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 20%;
+        }
+}

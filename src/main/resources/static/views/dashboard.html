@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/all.css">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../img/screwdriver-wrench-solid.svg">
+    <title>Ferragem Avila</title>
+    <!-- Quando for criar as novas páginas na pasta views, ajustar todos os diretórios incluindo ../ -->
+</head>
+<body>
+
+    <div class="flex-div">
+
+        <aside class="sidebar-left">
+            <div class="sidebar-title">
+                <img src="../img/logo.jpg" alt="Logo Ferragem Avila">
+                <h2>Ferragem Avila PDV</h2>
+            </div>
+            <div class="menu">
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-cart-arrow-down"></i>
+                        <a href="../index.html">Página inicial</a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-box"></i>
+                        <a href="produtos.html">Produtos</a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-list"></i>
+                        <a href="">Histórico de vendas</a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chart-line"></i>
+                        <a href="dashboard.html">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main>
+        
+            <header>
+                <i class="fa-solid fa-chart-line"></i>
+                <p class="header-title">Dashboard</p>
+            </header>
+        
+            <div class="main-content">
+
+                <div class="dashboard-panel-row">
+
+                    <div class="dashboard-panel">
+
+                        <div class="chart">
+                            <canvas id="grafico1"></canvas>
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="grafico2"></canvas>
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="grafico3"></canvas>
+                        </div>
+                        
+                    </div>
+
+                    <div class="dashboard-panel">
+                    
+                        <div class="chart">
+                            <canvas id="grafico4"></canvas>
+                        </div>
+                    
+                        <div class="chart">
+                            <canvas id="grafico5"></canvas>
+                        </div>
+                    
+                        <div class="chart">
+                            <canvas id="grafico6"></canvas>
+                        </div>
+                    
+                    </div>
+
+                </div>
+
+            </div>
+        
+        </main>
+        
+    </div>
+    
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../plugins/fontawesome/js/all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/script-dashboard.js"></script>
+</body>
+</html>

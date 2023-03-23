@@ -1,0 +1,21 @@
+.flex-div header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 90px;
+    background-color: white;
+    padding: 10px 30px;
+    border: 1px solid rgba(0, 0, 0, .0625);
+    border-left: 0px;
+}
+
+header svg {
+    font-size: 28px;
+}
+
+.header-title {
+    margin-left: 20px;
+    margin-top: 12px;
+    font-size: 23px;
+}

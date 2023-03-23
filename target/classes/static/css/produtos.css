@@ -1,0 +1,132 @@
+main {
+    display: block;
+    height: 100%;
+    background-color: #f5f5f5;
+    width: calc(100% - 250px);
+}
+
+main .main-content {
+    padding: 5px;
+    width: 100%;
+    height: calc(100% - 90px);
+    overflow-y: auto;
+}
+
+.main-content::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.main-content::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+}
+
+.panel-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    margin: 5px;
+}
+
+.panel-row:nth-child(1) {
+    border: 1px solid #ccc;
+}
+
+.panel-row2 {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin: 5px;
+}
+
+.main-content .product-panel, .product-panel-btn, .product-panel-btn-new-prod, .panel-full {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 10px;
+    width: 30%;
+}
+
+#divIdPesquisa {
+    width: 25%;
+}
+
+#divSearchBtn, #divNewProd {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 10%;
+}
+
+#divSearchBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.icon-centralized {
+	text-align: center;
+}
+
+.table td {
+    vertical-align: middle !important;
+}
+
+@media screen and (max-width: 1450px) {
+    .main-content .product-panel,
+        .product-panel-btn,
+        .product-panel-btn-new-prod,
+        .panel-full {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 5px 10px;
+            width: 25%;
+        }
+    
+        #divIdPesquisa {
+            width: 18%;
+        }
+    
+        #divNewProd {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 15%;
+        }
+    
+        #divSearchBtn {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            width: 10%;
+        }
+}
+
+.main-content .product-panel-full {
+    width: 100%;
+}
+
+.panel-row {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/* Remover as setas de mais e menos do input númerico */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/all.css">
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/fontawesome/css/all.min.css">
+<link rel="icon" type="image/x-icon" href="../img/screwdriver-wrench-solid.svg">
+<title>Ferragem Avila</title>
+<!-- Quando for criar as novas páginas na pasta views, ajustar todos os diretórios incluindo ../ -->
+</head>
+<body onload="listarProdutos()">
+
+	<div class="flex-div">
+
+		<aside class="sidebar-left">
+			<div class="sidebar-title">
+				<img src="../img/logo.jpg" alt="Logo Ferragem Avila">
+				<h2>Ferragem Avila PDV</h2>
+			</div>
+			<div class="menu">
+				<ul>
+					<li><i class="fa-solid fa-cart-arrow-down"></i> <a href="../index.html">Página inicial</a></li>
+					<li><i class="fa-solid fa-box"></i> <a href="produtos.html">Produtos</a></li>
+					<li><i class="fa-solid fa-list"></i> <a href="">Histórico de vendas</a></li>
+					<li><i class="fa-solid fa-chart-line"></i> <a href="dashboard.html">Dashboard</a></li>
+				</ul>
+			</div>
+		</aside>
+
+		<main>
+
+			<header>
+				<i class="fa-solid fa-box"></i>
+				<p class="header-title">Produtos</p>
+			</header>
+
+			<div class="main-content">
+
+				<div class="panel-row">
+
+					<div id="divIdPesquisa" class="product-panel">
+						<input id="pesquisa_id" class="form-control" type="number" min="0" max="999999" placeholder="Pesquisar por id...">
+					</div>
+
+					<div class="product-panel">
+						<input id="pesquisa_nome" class="form-control" type="text" placeholder="Pesquisar por nome...">
+					</div>
+
+					<div class="product-panel">
+						<input id="pesquisa_cod_barras" class="form-control" type="number" min="0" max="999999" placeholder="Pesquisar por código de barras...">
+					</div>
+
+					<div id="divSearchBtn" class="product-panel-btn">
+						<button id="botao_pesquisar" type="submit" class="btn btn-primary" onclick="pesquisarPorFiltros()">Pesquisar <i class="fa-solid fa-magnifying-glass"></i></button>
+					</div>
+
+					<div id="divNewProd" class="product-panel-btn">
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCadastroProduto">Novo <i class="fa-solid fa-plus"></i></button>
+					</div>
+
+				</div>
+
+				<div class="panel-row">
+					<div class="product-panel-full">
+						<table class="table table-striped" id="tabelaProdutos">
+							<thead class="thead-dark">
+								<tr>
+									<th>ID</th>
+									<th>Nome produto</th>
+									<th>Descrição produto</th>
+									<th>Valor</th>
+									<th>Quantidade</th>
+									<th>Código de barras</th>
+									<th class="icon-centralized">Editar</th>
+									<th class="icon-centralized">Excluir</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+
+		</main>
+
+	</div>
+
+
+	<!-- ============ MODAL DE CADASTRO DE PRODUTOS ============ -->
+
+	<div class="modal fade" id="modalCadastroProduto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Cadastro de produto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+      	<form action="" id="formCadastroProduto">
+						<div  class="form-group col-md-12">
+							<label class="labelText" for="id">ID:</label>
+						 	<input type="text" class="form-control" id="id" readonly="readonly">
+						</div>
+					
+						<div  class="form-group col-md-12">
+							<label class="labelText" for="nome">Nome:</label>
+						 	<input type="text" class="form-control" id="nome" placeholder="Digite o nome..." required="required">
+						</div>
+						
+						<div class="form-group col-md-12">
+							<label class="labelText" for="descricao">Descrição:</label>
+							<input type="text" class="form-control" id="descricao" placeholder="Digite a descrição...">
+						</div>
+					
+						<div class="form-group col-md-12">
+							<label class="labelText" for="valor">Valor:</label> 
+							<input type="number" min="0" max="999999" step="0.01" class="form-control" id="valor" placeholder="Digite o valor (somente números)...">
+						</div>
+					
+						<div class="form-group col-md-12">
+							<label class="labelText" for="quantidade">Quantidade no Estoque:</label> 
+							<input type="number" class="form-control" id="quantidade" placeholder="Digite a quantidade de estoque (somente números)...">
+						</div>
+						
+						<div class="form-group col-md-12">
+							<label class="labelText" for="cod_barras">Código de Barras:</label> 
+							<input type="number" min="0" max="999999" class="form-control" id="cod_barras" placeholder="Escaneie o código...">
+						</div>
+			</form>
+      
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="listarProdutos()">Fechar</button>
+        <button type="button" class="btn btn-success" onclick="salvarProduto()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+	<!-- ======================================================= -->
+	
+	
+	<!-- ============ MODAL DE ATUALIZAÇÃO DE PRODUTOS ============ -->
+
+	<div class="modal fade" id="modalAtualizaProduto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Editar produto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+      	<form action="" id="formCadastroProduto">
+						<div  class="form-group col-md-12">
+							<label class="labelText" for="id">ID:</label>
+						 	<input type="text" class="form-control" id="id2" readonly="readonly">
+						</div>
+					
+						<div  class="form-group col-md-12">
+							<label class="labelText" for="nome">Nome:</label>
+						 	<input type="text" class="form-control" id="nome2" placeholder="Digite o nome..." required="required">
+						</div>
+						
+						<div class="form-group col-md-12">
+							<label class="labelText" for="descricao">Descrição:</label>
+							<input type="text" class="form-control" id="descricao2" placeholder="Digite a descrição...">
+						</div>
+					
+						<div class="form-group col-md-12">
+							<label class="labelText" for="valor">Valor:</label> 
+							<input type="number" min="0" max="999999" step="0.01" class="form-control" id="valor2" placeholder="Digite o valor (somente números)...">
+						</div>
+					
+						<div class="form-group col-md-12">
+							<label class="labelText" for="quantidade">Quantidade no Estoque:</label> 
+							<input type="number" class="form-control" id="quantidade2" placeholder="Digite a quantidade de estoque (somente números)...">
+						</div>
+						
+						<div class="form-group col-md-12">
+							<label class="labelText" for="cod_barras">Código de Barras:</label> 
+							<input type="number" min="0" max="999999" class="form-control" id="cod_barras2" placeholder="Escaneie o código...">
+						</div>
+			</form>
+      
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="listarProdutos()">Cancelar</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="salvarProdutoAtualizado()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+	<!-- ======================================================= -->
+	
+
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+	<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../plugins/fontawesome/js/all.min.js"></script>
+	<script src="../js/script-produtos.js"></script>
+	
+</body>
+</html>
