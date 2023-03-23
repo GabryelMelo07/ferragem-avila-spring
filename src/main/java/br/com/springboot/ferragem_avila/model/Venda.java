@@ -1,8 +1,11 @@
 package br.com.springboot.ferragem_avila.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class Venda {
 
-    private long id;
+    private int id;
     private LocalDate data;
     private ArrayList<Item> itens;
     // implementar vendedor
@@ -12,7 +15,7 @@ public class Venda {
         this.itens = itens;
     }
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -24,7 +27,7 @@ public class Venda {
         return this.itens;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

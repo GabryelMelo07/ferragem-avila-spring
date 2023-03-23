@@ -9,10 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import br.com.springboot.ferragem_avila.model.Produto;
 
-/**
- *
- * @author iapereira
- */
 @Repository
 public class ProdutoRepository implements IRepository<Produto> {
 

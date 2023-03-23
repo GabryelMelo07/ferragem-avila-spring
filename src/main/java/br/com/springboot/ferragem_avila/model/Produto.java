@@ -1,6 +1,6 @@
 package br.com.springboot.ferragem_avila.model;
 
-public class Produto /*implements RowMapper<Produto>*/ {
+public class Produto {
 
     private int id;
     private String descricao;

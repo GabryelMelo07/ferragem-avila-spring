@@ -1,7 +1,5 @@
 package br.com.springboot.ferragem_avila.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +26,6 @@ public class ProdutoController {
     @GetMapping(value = "listartodos_produto") // Método para listar todos objetos do bd \\    
     public ResponseEntity<Iterable<Produto>> listartodos_produto() {
         return new ResponseEntity<>(produtoRepository.list(), HttpStatus.OK);
-        // return new ResponseEntity<List<Produto>>(produto, HttpStatus.OK);
     }
 
     @PostMapping(value = "salvar_produto")
@@ -41,7 +38,6 @@ public class ProdutoController {
     @DeleteMapping(value = "deletar_produto")
     @ResponseBody
     public ResponseEntity<String> deletar_produto(@RequestParam int idProduto) {
-//    	produtoRepository2.deleteById(idProduto);
         produtoRepository.delete(idProduto);
         return new ResponseEntity<String>("Produto Deletado.", HttpStatus.OK);
     }
@@ -64,27 +60,5 @@ public class ProdutoController {
         Produto prod = produtoRepository.update(produto);
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
-    /*
-	
-	@GetMapping(value = "buscarPorNome_produto")
-    @ResponseBody
-    public ResponseEntity<List<Produto2>> buscarPorNome_produto(@RequestParam(name = "nome") String nome) {
-    	List<Produto2> listProd = produtoRepository2.buscarPorNome(nome.trim().toUpperCase());
-    	return new ResponseEntity<List<Produto2>>(listProd, HttpStatus.OK); 	
-    }
-	
-	@GetMapping(value = "buscarPorId_produto")
-    @ResponseBody
-    public ResponseEntity<List<Produto2>> buscarPorId_produto(@RequestParam(name = "idProd") Long idProd) {
-		List<Produto2> listProd = produtoRepository2.buscarPorId(idProd);
-		return new ResponseEntity<List<Produto2>>(listProd, HttpStatus.OK); 	
-    }
-	
-	@GetMapping(value = "buscarPorCodBarras_produto")
-    @ResponseBody
-    public ResponseEntity<List<Produto2>> buscarPorCodBarras_produto(@RequestParam(name = "cod_barras") Long cod_barras) {
-		List<Produto2> listProd = produtoRepository2.buscarPorCodBarras(cod_barras);
-		return new ResponseEntity<List<Produto2>>(listProd, HttpStatus.OK); 	
-    }
-     */
+
 }

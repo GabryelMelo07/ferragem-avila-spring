@@ -2,11 +2,8 @@ package br.com.springboot.ferragem_avila.repository;
 
 import java.util.List;
 
-
-
 /**
  *
- * @author iapereira
  * @param <Model>
  */
 public interface IRepository<Model> {

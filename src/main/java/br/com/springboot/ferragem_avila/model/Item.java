@@ -2,17 +2,17 @@ package br.com.springboot.ferragem_avila.model;
 
 public class Item {
 
-    private long id;
+    private int id;
     private Produto produto;
     private int quantidade_produto;
     private Venda venda;
 
-    public Item item(Produto produto, Venda venda) {
+    public Item(Produto produto, Venda venda) {
         this.produto = produto;
         this.venda = venda;
     }
 
-    public long getId() {
+    public int getId() {
         return this.id;
     }
 
@@ -28,7 +28,7 @@ public class Item {
         return this.venda;
     }
     
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

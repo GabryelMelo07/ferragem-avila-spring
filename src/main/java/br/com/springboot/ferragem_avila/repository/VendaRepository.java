@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import br.com.springboot.ferragem_avila.model.Venda;
 
 @Repository
-public class ProdutoRepository implements IRepository<Item> {
+public class VendaRepository implements IRepository<Venda> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -24,20 +24,20 @@ public class ProdutoRepository implements IRepository<Item> {
 
     @Override
     public Venda update(Venda venda) {
-        String sqlUpdate = "UPDATE venda SET descricao = ?, preco = ?, estoque = ? where id = ?";
-        jdbcTemplate.update(sqlUpdate, venda.getDescricao(), venda.getPreco(), venda.getEstoque(), venda.getId());
+        String sqlUpdate = "UPDATE venda SET data = ?, itens = ? where id = ?";
+        jdbcTemplate.update(sqlUpdate, venda.getData(), venda.getItens(), venda.getId());
         return this.load(venda.getId());
     }
 
     @Override
-    public List<Produto> list() {
+    public List<Venda> list() {
         return jdbcTemplate.query("SELECT * FROM venda ORDER BY data ASC", BeanPropertyRowMapper.newInstance(Venda.class));
     }
 
     @Override
     public Venda save(Venda venda) {
-        String sqlInsert = "INSERT INTO venda (descricao, preco, estoque) VALUES (?,?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, venda.getDescricao(), venda.getPreco(), venda.getEstoque());
+        String sqlInsert = "INSERT INTO venda (data, itens) VALUES (?,?) RETURNING id";         
+        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, venda.getData(), venda.getItens());
         venda.setId(id);
         return venda;
     }
