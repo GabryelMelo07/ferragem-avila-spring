@@ -110,6 +110,21 @@ main .main-content { /* Previnindo que o layout da página seja quebrado quando 
     width: 85%;
 }
 
+.index-panel-nro-venda { /* Div do id da venda */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;                                    /*     PADRONIZAR     */
+    width: 15%;
+    padding: 5px;
+}
+
+.index-panel-data-hora {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;                                   /*     PADRONIZAR     */
+    width: 10%;
+}
+
 fieldset legend {
     font-size: 20px;
 }

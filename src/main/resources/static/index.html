@@ -65,8 +65,12 @@
                         <button id="botao_adicionar" type="submit" class="btn btn-primary" onclick="adicionarItem()">Adicionar</button>
                     </div>
 
-                    <div class="index-panel">
+                    <div class="index-panel-nro-venda">
                         <input id="venda_id" class="form-control" type="number" readonly="readonly">
+                    </div>
+
+                    <div class="index-panel-data-hora">
+                        <input id="data_hora" class="form-control" readonly="readonly"></input>
                     </div>
 
                 </div> 
@@ -135,7 +139,7 @@
                         
                         <div class="index-panel-info-btn">
                             <button id="botao_cancelar_venda" type="button" class="btn btn-danger">Cancelar</button>
-                            <button id="botao_concluir_venda" type="button" class="btn btn-success">Concluir</button>
+                            <button id="botao_concluir_venda" type="button" class="btn btn-success" onclick="confirmarVenda()">Concluir</button>
                         </div>
                     </div>
                     

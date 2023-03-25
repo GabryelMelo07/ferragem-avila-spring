@@ -1,6 +1,6 @@
 function adicionarItem() {
 
-    var venda_id = (($("#venda_id").val() === undefined) ? 0 : $("#venda_id").val());
+    var venda_id = (($("#venda_id").val() === "") ? 0 : $("#venda_id").val());
     var id = $("#inserir_id").val();
     var idAnterior = id;
     var quantidade;
@@ -36,4 +36,8 @@ function adicionarItem() {
 function confirmarVenda() {
     $('#resumoVenda > tbody > tr').remove();
     $("#venda_id").val(0);
+}
+
+function initRelogio() {
+    $("#data_hora").val(new Intl.DateTimeFormat('pt-BR', {dateStyle: 'short', timeStyle: 'short'}).format(Date.now));
 }
