@@ -12,6 +12,10 @@ public class Item {
         this.venda = venda;
     }
 
+    public Item() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     public int getId() {
         return this.id;
     }

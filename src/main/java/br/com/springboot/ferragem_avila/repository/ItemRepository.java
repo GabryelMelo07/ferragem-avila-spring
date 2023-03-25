@@ -30,7 +30,7 @@ public class ItemRepository implements IRepository<Item> {
     @Override
     public Item save(Item item) {
         String sqlInsert = "INSERT INTO item (produto, quantidade_produto, venda) VALUES (?,?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, item.getProduto(), item.getQuantidadeProduto(), item.getVenda());
+        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, item.getProduto().getId(), item.getQuantidadeProduto(), item.getVenda().getId());
         item.setId(id);
         return item;
     }
