@@ -118,13 +118,6 @@ main .main-content { /* Previnindo que o layout da página seja quebrado quando 
     padding: 5px;
 }
 
-.index-panel-data-hora {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;                                   /*     PADRONIZAR     */
-    width: 10%;
-}
-
 fieldset legend {
     font-size: 20px;
 }

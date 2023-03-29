@@ -1,15 +1,16 @@
 function adicionarItem() {
 
     var venda_id = (($("#venda_id").val() === "") ? 0 : $("#venda_id").val());
+
+    if (venda_id === 0) {
+        abrirVenda();
+    }
+
     var id = $("#inserir_id").val();
     var idAnterior = id;
     var quantidade;
 
-    if (id === idAnterior) {
-        quantidade += 1;
-    } else {
-        quantidade = 1;
-    }
+    if (id === idAnterior) quantidade += 1;
 
     $.ajax({
         method: "GET",
@@ -33,11 +34,20 @@ function adicionarItem() {
     });
 }
 
+function abrirVenda() {
+    $.ajax({
+        method: "POST",
+        url: "/salvar_venda",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            alert("Venda cadastrada com sucesso.");
+        }
+    }).fail(function (xhr, status, errorThrown) {
+        alert("Erro ao cadastrar produto: " + xhr.responseText);
+    });
+}
+
 function confirmarVenda() {
     $('#resumoVenda > tbody > tr').remove();
     $("#venda_id").val(0);
-}
-
-function initRelogio() {
-    $("#data_hora").val(new Intl.DateTimeFormat('pt-BR', {dateStyle: 'short', timeStyle: 'short'}).format(Date.now));
 }
