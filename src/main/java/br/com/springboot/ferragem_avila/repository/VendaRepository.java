@@ -50,10 +50,14 @@ public class VendaRepository implements IRepository<Venda> {
     }
 
     public Item existsItem(int venda_id, int produto_id) {
-        Item item = null;
-        String sqlSelect = "SELECT * FROM item WHERE venda_id = ? and produto_id = ?;";
-        item = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Item.class), venda_id, produto_id);
-        return item;
+        String sqlSelectRows = "SELECT count(*) as rows FROM item WHERE venda_id = ? and produto_id = ?;";
+        int rows = jdbcTemplate.queryForObject(sqlSelectRows, Integer.class, venda_id, produto_id);
+        if (rows > 0) {        
+            String sqlSelect = "SELECT * FROM item WHERE venda_id = ? and produto_id = ?;";
+            Item item = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Item.class), venda_id, produto_id);
+            return item;
+        } 
+        return null;
     }
 
 }

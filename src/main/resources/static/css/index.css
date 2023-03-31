@@ -114,16 +114,12 @@ main .main-content { /* Previnindo que o layout da página seja quebrado quando 
     display: flex;
     flex-direction: row;
     justify-content: center;                                    /*     PADRONIZAR     */
-    width: 10%;
+    width: 15%;
     padding: 5px;
 }
 
 fieldset legend {
     font-size: 20px;
-}
-
-#resumoVenda td {
-    color: white;
 }
 
 /* Remover as setas de mais e menos do input númerico */

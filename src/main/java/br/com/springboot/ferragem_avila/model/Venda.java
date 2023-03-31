@@ -35,7 +35,7 @@ public class Venda {
         this.id = id;
     }
 
-    public void setData(LocalDate data) {
+    public void setDataHora(LocalDate data) {
         this.data = data;
     }
 

@@ -4,10 +4,8 @@ br/com/springboot/ferragem_avila/repository/ItemRepository.class
 br/com/springboot/ferragem_avila/controllers/ItemController.class
 br/com/springboot/ferragem_avila/model/Item.class
 br/com/springboot/ferragem_avila/Application.class
-br/com/springboot/ferragem_avila/repository/ProdutoRepository2.class
 br/com/springboot/ferragem_avila/model/Produto.class
 br/com/springboot/ferragem_avila/model/Venda.class
-br/com/springboot/ferragem_avila/model/Produto2.class
 br/com/springboot/ferragem_avila/repository/IRepository.class
 br/com/springboot/ferragem_avila/controllers/ProdutoController.class
 br/com/springboot/ferragem_avila/controllers/VendaController.class

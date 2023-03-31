@@ -1,10 +1,10 @@
 package br.com.springboot.ferragem_avila.model;
 
-public class Item {
+public class Item  {
 
     private int id;
     private Produto produto;
-    private int quantidade_produto;
+    private int quantidade;
     private Venda venda;
 
     public Item(Produto produto, Venda venda) {
@@ -24,8 +24,8 @@ public class Item {
         return this.produto;
     }
 
-    public int getQuantidadeProduto() {
-        return this.quantidade_produto;
+    public int getQuantidade() {
+        return this.quantidade;
     }
 
     public Venda getVenda() {
@@ -40,8 +40,8 @@ public class Item {
         this.produto = produto;
     }
 
-    public void setQuantidadeProduto(int quantidade_produto) {
-        this.quantidade_produto = quantidade_produto;
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public void setVenda(Venda venda) {
@@ -50,7 +50,9 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.format("%d, %s, %d, %s", this.id, this.produto, this.quantidade_produto, this.venda);
+        return String.format("%d, %s, %d, %s", this.id, this.produto, this.quantidade, this.venda);
     }
+    
+   
 
 }

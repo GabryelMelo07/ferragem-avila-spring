@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import br.com.springboot.ferragem_avila.model.Item;
+import br.com.springboot.ferragem_avila.model.ItemMapper;
 
 @Repository
 public class ItemRepository implements IRepository<Item> {
@@ -18,7 +19,7 @@ public class ItemRepository implements IRepository<Item> {
     @Override
     public Item update(Item item) {
         String sqlUpdate = "UPDATE item SET id = ?, produto = ?, quantidade_produto = ? where id = ?";
-        jdbcTemplate.update(sqlUpdate, item.getProduto(), item.getQuantidadeProduto(), item.getId());
+        jdbcTemplate.update(sqlUpdate, item.getProduto(), item.getQuantidade(), item.getId());
         return this.load(item.getId());
     }
 
@@ -26,11 +27,17 @@ public class ItemRepository implements IRepository<Item> {
     public List<Item> list() {
         return jdbcTemplate.query("SELECT * FROM item ORDER BY id ASC", BeanPropertyRowMapper.newInstance(Item.class));
     }
+    
+    public List<Item> listItensByVenda(int venda_id) {
+        String sqlSelectByVenda = "SELECT item.id as id, item.quantidade as quantidade, item.produto_id, produto.descricao, produto.estoque, produto.preco, item.venda_id, venda.data_hora from item inner join produto on (item.produto_id = produto.id) inner join venda on (venda.id = item.venda_id) WHERE item.venda_id = ?";
+        return jdbcTemplate.query(sqlSelectByVenda, new ItemMapper(), venda_id);        
+    }
+    
 
     @Override
     public Item save(Item item) {
         String sqlInsert = "INSERT INTO item (quantidade, produto_id, venda_id) VALUES (?,?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, item.getQuantidadeProduto(), item.getProduto().getId(), item.getVenda().getId());
+        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, item.getQuantidade(), item.getProduto().getId(), item.getVenda().getId());
         item.setId(id);
         return item;
     }

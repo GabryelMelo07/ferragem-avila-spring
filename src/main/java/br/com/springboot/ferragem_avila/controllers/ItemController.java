@@ -12,6 +12,7 @@ import br.com.springboot.ferragem_avila.model.Venda;
 import br.com.springboot.ferragem_avila.repository.ItemRepository;
 import br.com.springboot.ferragem_avila.repository.ProdutoRepository;
 import br.com.springboot.ferragem_avila.repository.VendaRepository;
+import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,11 +24,10 @@ public class ItemController {
 
     @Autowired
     private ItemRepository itemRepository;
-    
 
     @Autowired
     private ProdutoRepository produtoRepository;
-    
+
     @Autowired
     private VendaRepository vendaRepository;
 
@@ -36,41 +36,70 @@ public class ItemController {
         return new ResponseEntity<>(itemRepository.list(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "salvar_item", params = {"venda_id", "produto_id", "quantidade_produto"})
-    public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade_produto) {
+    @GetMapping(value = "listar_itens", params = {"venda_id"}) // Método para listar todos objetos do bd \\    
+    public ResponseEntity<Iterable<Item>> listarItens(@RequestParam int venda_id) {
+        return new ResponseEntity<>(itemRepository.listItensByVenda(venda_id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "salvar_item", params = {"venda_id", "produto_id", "quantidade"})
+    public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade) {
+
+//        System.out.println("=======================");
+//        System.out.println("Venda (id):"+venda_id);
+//         System.out.println("Produto (id):"+produto_id);
+//         System.out.println("Qtde:"+quantidade);
+//         System.out.println("======================");
         Produto produto = produtoRepository.load(produto_id);
-        Item item = new Item();
-        item.setProduto(produto);
-        item.setQuantidadeProduto(quantidade_produto);
-        if (venda_id != 0){
-            // se a venda ja existe venda_id != 0
-            item = vendaRepository.existsItem(venda_id, produto_id);
-            if (item != null){
-                itemRepository.updateQuantidade(venda_id, produto_id);
-                item.setVenda(this.vendaRepository.load(venda_id));
-                return new ResponseEntity<Item>(item, HttpStatus.OK);
+
+        if (produto != null) {
+            Item item = new Item();
+            item.setProduto(produto);
+//            mudar para uma quantidade correta
+            item.setQuantidade(1);
+
+            if (venda_id != 0) {
+                // se a venda ja existe venda_id != 0
+                item = vendaRepository.existsItem(venda_id, produto_id);
+                if (item != null) {
+//                  item.setQuantidadeProduto(quantidade);
+                    itemRepository.updateQuantidade(venda_id, produto_id);
+                    item.setVenda(this.vendaRepository.load(venda_id));
+                    return new ResponseEntity<Item>(item, HttpStatus.OK);
+                } else {
+
+                    item = new Item();
+                    item.setProduto(produto);
+                    //            mudar para uma quantidade correta
+                    item.setQuantidade(1);
+
+//                    Venda venda = this.vendaRepository.load(venda_id);                     
+                    item.setVenda(this.vendaRepository.load(venda_id));
+                    itemRepository.save(item);
+                    return new ResponseEntity<Item>(item, HttpStatus.OK);
+                }
             } else {
-                Venda venda = this.vendaRepository.load(venda_id);
+                // se n existe ainda venda == venda_id = 0
+                Venda venda = new Venda();
+                //          ArrayList<Item> vetItem = new ArrayList<>();
+//              vetItem.add(item);
+                //          venda.setItens(vetItem);
+                venda = vendaRepository.save(venda);
+                item.setVenda(venda);
+                //          item.setVenda(venda);
                 itemRepository.save(item);
-                item.setVenda(this.vendaRepository.load(venda_id));
                 return new ResponseEntity<Item>(item, HttpStatus.OK);
             }
         } else {
-            // se n existe ainda venda == venda_id = 0
-            Venda venda = new Venda();
-            venda = vendaRepository.save(venda);    
-            item.setVenda(venda);
-            itemRepository.save(item);
-
+//            codigo de produto invalido => retorna um item vazio
+            return new ResponseEntity<Item>(new Item(), HttpStatus.OK);
         }
-        
-        return new ResponseEntity<Item>(item, HttpStatus.OK);
+
     }
 
-    @DeleteMapping(value = "deletar_item")
-    @ResponseBody
-    public ResponseEntity<String> deletar_item(@RequestParam int idItem) {
-        itemRepository.delete(idItem);
+    @GetMapping(value = "deletar_item", params = {"item_id"})
+    public ResponseEntity<String> deletar_item(@RequestParam int item_id) {
+//        testar caso dê errado a exclusão
+        itemRepository.delete(item_id);
         return new ResponseEntity<String>("Item Removido.", HttpStatus.OK);
     }
 

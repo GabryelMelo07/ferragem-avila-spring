@@ -30,7 +30,7 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public List<Produto> list() {
-        return jdbcTemplate.query("SELECT * FROM produto ORDER BY id", BeanPropertyRowMapper.newInstance(Produto.class));
+        return jdbcTemplate.query("SELECT * FROM produto ORDER BY descricao ASC", BeanPropertyRowMapper.newInstance(Produto.class));
     }
 
     public List<Produto> list(int venda_id) {
@@ -47,8 +47,25 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public Produto load(int id) {
-        String sqlSelect = "SELECT * FROM produto WHERE id = ?;";
-        return jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Produto.class), id);
+        String selectRows = "SELECT count(*) FROM produto WHERE id = ?;";        
+        int rows =  jdbcTemplate.queryForObject(selectRows, Integer.class, id);
+        if (rows > 0) {        
+            String sqlSelect = "SELECT * FROM produto WHERE id = ?;";
+            Produto produto = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Produto.class), id);
+            return produto;
+        } 
+        return null;
     }
+    
+//      public Item existsItem(int venda_id, int produto_id) {
+//        String sqlSelectRows = "SELECT count(*) as rows FROM item WHERE venda_id = ? and produto_id = ?;";
+//        int rows = jdbcTemplate.queryForObject(sqlSelectRows, Integer.class, venda_id, produto_id);
+//        if (rows > 0) {        
+//            String sqlSelect = "SELECT * FROM item WHERE venda_id = ? and produto_id = ?;";
+//            Item item = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Item.class), venda_id, produto_id);
+//            return item;
+//        } 
+//        return null;
+//    }
 
 }
