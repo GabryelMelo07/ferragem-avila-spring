@@ -7,7 +7,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import br.com.springboot.ferragem_avila.model.Venda;
+
+import br.com.springboot.ferragem_avila.model.*;
 
 @Repository
 public class VendaRepository implements IRepository<Venda> {
@@ -36,9 +37,9 @@ public class VendaRepository implements IRepository<Venda> {
 
     @Override
     public Venda save(Venda venda) {
-        String sqlInsert = "INSERT INTO venda (data, itens) VALUES (?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, venda.getData(), venda.getItens());
-        venda.setId(id);
+        String sqlInsert = "INSERT INTO venda (data_hora) VALUES (CURRENT_TIMESTAMP) RETURNING id";
+        venda.setId(jdbcTemplate.queryForObject(sqlInsert, Integer.class));
+
         return venda;
     }
 
@@ -47,5 +48,12 @@ public class VendaRepository implements IRepository<Venda> {
         String sqlSelect = "SELECT * FROM venda WHERE id = ?;";
         return jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Venda.class), id);
     }
-    
+
+    public Item existsItem(int venda_id, int produto_id) {
+        Item item = null;
+        String sqlSelect = "SELECT * FROM item WHERE venda_id = ? and produto_id = ?;";
+        item = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Item.class), venda_id, produto_id);
+        return item;
+    }
+
 }

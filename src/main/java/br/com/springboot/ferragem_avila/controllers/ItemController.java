@@ -12,7 +12,6 @@ import br.com.springboot.ferragem_avila.model.Venda;
 import br.com.springboot.ferragem_avila.repository.ItemRepository;
 import br.com.springboot.ferragem_avila.repository.ProdutoRepository;
 import br.com.springboot.ferragem_avila.repository.VendaRepository;
-import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,25 +37,34 @@ public class ItemController {
     }
 
     @GetMapping(value = "salvar_item", params = {"venda_id", "produto_id", "quantidade_produto"})
-    @ResponseBody
-    public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade_produto) {        
+    public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade_produto) {
         Produto produto = produtoRepository.load(produto_id);
         Item item = new Item();
         item.setProduto(produto);
         item.setQuantidadeProduto(quantidade_produto);
-        if (venda_id > 0){
+        if (venda_id != 0){
             // se a venda ja existe venda_id != 0
-            item.setVenda(vendaRepository.load(venda_id));
+            item = vendaRepository.existsItem(venda_id, produto_id);
+            if (item != null){
+                itemRepository.updateQuantidade(venda_id, produto_id);
+                item.setVenda(this.vendaRepository.load(venda_id));
+                return new ResponseEntity<Item>(item, HttpStatus.OK);
+            } else {
+                Venda venda = this.vendaRepository.load(venda_id);
+                itemRepository.save(item);
+                item.setVenda(this.vendaRepository.load(venda_id));
+                return new ResponseEntity<Item>(item, HttpStatus.OK);
+            }
         } else {
             // se n existe ainda venda == venda_id = 0
             Venda venda = new Venda();
-            ArrayList<Item> vetItem = new ArrayList<>();
-            vetItem.add(item);
-            venda.setIntes(vetItem);            
-            item.setVenda(vendaRepository.save(venda));
+            venda = vendaRepository.save(venda);    
             item.setVenda(venda);
+            itemRepository.save(item);
+
         }
-        return new ResponseEntity<Item>(itemRepository.save(item), HttpStatus.OK);
+        
+        return new ResponseEntity<Item>(item, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "deletar_item")

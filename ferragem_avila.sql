@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS spring_store;
+DROP DATABASE IF EXISTS ferragem_avila;
 
-CREATE DATABASE spring_store;
+CREATE DATABASE ferragem_avila;
 
-\c spring_store;
+\c ferragem_avila;
 
 /*
 CREATE TABLE vendedor (

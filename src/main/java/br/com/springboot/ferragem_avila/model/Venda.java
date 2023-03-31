@@ -16,7 +16,7 @@ public class Venda {
     }
 
     public Venda() {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public int getId() {
@@ -39,7 +39,7 @@ public class Venda {
         this.data = data;
     }
 
-    public void setIntes(ArrayList<Item> itens) {
+    public void setItens(ArrayList<Item> itens) {
         this.itens = itens;
     }
 

@@ -30,7 +30,7 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public List<Produto> list() {
-        return jdbcTemplate.query("SELECT * FROM produto ORDER BY descricao ASC", BeanPropertyRowMapper.newInstance(Produto.class));
+        return jdbcTemplate.query("SELECT * FROM produto ORDER BY id", BeanPropertyRowMapper.newInstance(Produto.class));
     }
 
     public List<Produto> list(int venda_id) {

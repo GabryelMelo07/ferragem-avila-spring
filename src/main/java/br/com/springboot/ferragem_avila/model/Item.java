@@ -13,7 +13,7 @@ public class Item {
     }
 
     public Item() {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public int getId() {

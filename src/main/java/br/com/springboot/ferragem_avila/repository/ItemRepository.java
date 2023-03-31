@@ -29,8 +29,8 @@ public class ItemRepository implements IRepository<Item> {
 
     @Override
     public Item save(Item item) {
-        String sqlInsert = "INSERT INTO item (produto, quantidade_produto, venda) VALUES (?,?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, item.getProduto().getId(), item.getQuantidadeProduto(), item.getVenda().getId());
+        String sqlInsert = "INSERT INTO item (quantidade, produto_id, venda_id) VALUES (?,?,?) RETURNING id";         
+        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, item.getQuantidadeProduto(), item.getProduto().getId(), item.getVenda().getId());
         item.setId(id);
         return item;
     }
@@ -47,4 +47,8 @@ public class ItemRepository implements IRepository<Item> {
         jdbcTemplate.update(sqlDelete, id);
     }
 
+    public void updateQuantidade(int venda_id, int produto_id) {
+        String sqlUpdate = "UPDATE item SET quantidade = quantidade + 1 where venda_id = ? and produto_id = ?;";
+        jdbcTemplate.update(sqlUpdate, venda_id, produto_id);
+    }
 }
