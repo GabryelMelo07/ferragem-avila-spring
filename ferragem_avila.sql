@@ -17,8 +17,8 @@ CREATE TABLE produto (
     descricao text not null,
     preco double precision,
    -- status boolean default true,
-    estoque double precision
-    -- cod_barras integer
+    estoque integer,
+    cod_barras integer
 );
 
 CREATE TABLE venda (
@@ -36,8 +36,8 @@ CREATE TABLE item (
     UNIQUE(produto_id, venda_id)
 );
 
-INSERT INTO produto (descricao, preco, estoque) VALUES
-('teste1', 100.0, 1000);
+INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
+('teste1', 100.0, 1000, 1234567891011);
 
-INSERT INTO produto (descricao, preco, estoque) VALUES
-('teste2', 100.0, 1000);
+INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
+('teste2', 100.0, 1000, 1234567891055);
