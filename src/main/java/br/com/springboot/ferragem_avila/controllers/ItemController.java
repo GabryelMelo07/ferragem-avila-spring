@@ -12,12 +12,9 @@ import br.com.springboot.ferragem_avila.model.Venda;
 import br.com.springboot.ferragem_avila.repository.ItemRepository;
 import br.com.springboot.ferragem_avila.repository.ProdutoRepository;
 import br.com.springboot.ferragem_avila.repository.VendaRepository;
-import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 public class ItemController {
@@ -44,11 +41,6 @@ public class ItemController {
     @GetMapping(value = "salvar_item", params = {"venda_id", "produto_id", "quantidade"})
     public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade) {
 
-//        System.out.println("=======================");
-//        System.out.println("Venda (id):"+venda_id);
-//         System.out.println("Produto (id):"+produto_id);
-//         System.out.println("Qtde:"+quantidade);
-//         System.out.println("======================");
         Produto produto = produtoRepository.load(produto_id);
 
         if (produto != null) {

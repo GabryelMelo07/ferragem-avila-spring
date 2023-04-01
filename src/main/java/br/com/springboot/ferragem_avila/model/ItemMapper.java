@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
  * @author iapereira
  */
 public class ItemMapper  implements RowMapper<Item> {
-     //  pendente => de repente deslocar isso para o ItemRepository (como metodo, como uma classe privada/interna ou etc.)
+//  pendente => de repente deslocar isso para o ItemRepository (como metodo, como uma classe privada/interna ou etc.)
     @Override
     public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
         Item item = new Item();
@@ -22,8 +22,9 @@ public class ItemMapper  implements RowMapper<Item> {
         Produto itemProduto = new Produto();
         itemProduto.setId(rs.getInt("produto_id"));
         itemProduto.setDescricao(rs.getString("descricao"));
-        itemProduto.setEstoque(rs.getDouble("estoque"));
+        itemProduto.setEstoque(rs.getInt("estoque"));
         itemProduto.setPreco(rs.getDouble("preco"));
+        itemProduto.setCod_barras(rs.getLong("cod_barras")); // add cod barras
         item.setProduto(itemProduto);
         Venda itemVenda = new Venda();
         itemVenda.setId(rs.getInt("venda_id"));

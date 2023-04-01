@@ -18,6 +18,7 @@ CREATE TABLE produto (
     preco double precision,
    -- status boolean default true,
     estoque double precision
+    -- cod_barras integer
 );
 
 CREATE TABLE venda (

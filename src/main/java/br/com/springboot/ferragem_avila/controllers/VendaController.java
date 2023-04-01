@@ -33,4 +33,11 @@ public class VendaController {
         return new ResponseEntity<Venda>(vendaAux, HttpStatus.CREATED);
     }
     
+     @GetMapping(value = "deletar_venda", params = {"venda_id"})
+    public ResponseEntity<String> deletar_item(@RequestParam int venda_id) {
+//        testar caso dê errado a exclusão
+        vendaRepository.delete(venda_id);
+        return new ResponseEntity<String>("Venda Removida.", HttpStatus.OK);
+    }
+    
 }

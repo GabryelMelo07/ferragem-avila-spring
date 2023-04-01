@@ -11,7 +11,7 @@
     <title>Ferragem Avila</title>
     <!-- Quando for criar as novas páginas na pasta views, ajustar todos os diretórios incluindo ../ -->
 </head>
-<body>
+<body onload="loadVendaLocalStorage()">
 
     <div class="flex-div">
 
@@ -81,9 +81,11 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Descrição Produto</th>
-                                    <th>Valor</th>
-                                    <th>Qtd. Estoque</th>
-                                    <th>Código de barras</th>
+                                    <th class="icon-centralized">Valor</th>
+                                    <th class="icon-centralized">Qtd. Produto</th>
+                                    <th class="icon-centralized">Código de barras</th>
+                                    <th class="icon-centralized">Editar</th>
+                                    <th class="icon-centralized">Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,7 +136,7 @@
                         </div>
                         
                         <div class="index-panel-info-btn">
-                            <button id="botao_cancelar_venda" type="button" class="btn btn-danger">Cancelar</button>
+                            <button id="botao_cancelar_venda" type="button" class="btn btn-danger" onclick="cancelarVenda()">Cancelar</button>
                             <button id="botao_concluir_venda" type="button" class="btn btn-success" onclick="confirmarVenda()">Concluir</button>
                         </div>
                     </div>
@@ -146,6 +148,40 @@
         </main>
         
     </div>    
+
+    <div class="modal fade" id="modalAtualizarQtdItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Alterar quantidade</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+    
+                    <form action="" id="formCadastroProduto">
+                        <div class="form-group col-md-12">
+                            <label class="labelText" for="id">ID:</label>
+                            <input type="text" class="form-control" id="id" readonly="readonly">
+                        </div>
+                    
+                        <div class="form-group col-md-12">
+                            <label class="labelText" for="quantidadeProd">Quantidade do Produto:</label>
+                            <input type="number" class="form-control" id="quantidadeProd"
+                                placeholder="Digite a quantidade de produtos do item (somente números)...">
+                        </div>
+                    </form>
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" onclick="salvarProduto()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="plugins/fontawesome/js/all.min.js"></script>    

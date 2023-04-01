@@ -19,8 +19,8 @@ public class VendaRepository implements IRepository<Venda> {
     @Override
     public void delete(int id) {
         // TO DO: AJUSTAR MÉTODO PARA NÃO PERMITIR EXCLUIR VENDA FINALIZADA.
-        String sqlDelete = "DELETE FROM venda where id = ?";
-        jdbcTemplate.update(sqlDelete, id);
+        String sqlDelete = "BEGIN; DELETE FROM item WHERE venda_id = ?; DELETE FROM venda where id = ?; COMMIT;";
+        jdbcTemplate.update(sqlDelete, id, id);
     }
 
     @Override

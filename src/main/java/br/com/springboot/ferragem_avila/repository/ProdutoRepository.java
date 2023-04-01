@@ -23,14 +23,14 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public Produto update(Produto produto) {
-        String sqlUpdate = "UPDATE produto SET descricao = ?, preco = ?, estoque = ? where id = ?";
-        jdbcTemplate.update(sqlUpdate, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getId());
+        String sqlUpdate = "UPDATE produto SET descricao = ?, preco = ?, estoque = ?, cod_barras = ? where id = ?";
+        jdbcTemplate.update(sqlUpdate, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras(), produto.getId());
         return this.load(produto.getId());
     }
 
     @Override
     public List<Produto> list() {
-        return jdbcTemplate.query("SELECT * FROM produto ORDER BY descricao ASC", BeanPropertyRowMapper.newInstance(Produto.class));
+        return jdbcTemplate.query("SELECT * FROM produto ORDER BY id ASC", BeanPropertyRowMapper.newInstance(Produto.class));
     }
 
     public List<Produto> list(int venda_id) {
@@ -39,8 +39,8 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public Produto save(Produto produto) {
-        String sqlInsert = "INSERT INTO produto (descricao, preco, estoque) VALUES (?,?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, produto.getDescricao(), produto.getPreco(), produto.getEstoque());
+        String sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES (?,?,?,?) RETURNING id";         
+        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras());
         produto.setId(id);
         return produto;
     }
@@ -56,16 +56,5 @@ public class ProdutoRepository implements IRepository<Produto> {
         } 
         return null;
     }
-    
-//      public Item existsItem(int venda_id, int produto_id) {
-//        String sqlSelectRows = "SELECT count(*) as rows FROM item WHERE venda_id = ? and produto_id = ?;";
-//        int rows = jdbcTemplate.queryForObject(sqlSelectRows, Integer.class, venda_id, produto_id);
-//        if (rows > 0) {        
-//            String sqlSelect = "SELECT * FROM item WHERE venda_id = ? and produto_id = ?;";
-//            Item item = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Item.class), venda_id, produto_id);
-//            return item;
-//        } 
-//        return null;
-//    }
 
 }
