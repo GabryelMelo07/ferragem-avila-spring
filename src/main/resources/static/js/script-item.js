@@ -1,6 +1,7 @@
 function loadVendaLocalStorage(){
     var venda_id = localStorage.getItem("venda_id");
-    if (venda_id !== "0") {
+//    alert(venda_id);
+    if (venda_id !== null && venda_id !== "0") {
         $("#venda_id").val(venda_id);
         listarItensVenda(venda_id);
     }    
@@ -71,7 +72,7 @@ function listarItensVenda(venda_id) {
             $("#totalPag").val(response[i].produto.preco * response[i].quantidade);
         }
     }).fail(function (xhr, status, errorThrown) {
-        alert("Erro em adicionar item: " + xhr.responseText);
+        alert("Erro em listar item: " + xhr.responseText);
     });
 }
 

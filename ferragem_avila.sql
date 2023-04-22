@@ -1,14 +1,14 @@
-/* DROP DATABASE IF EXISTS ferragem_avila;
+DROP DATABASE IF EXISTS ferragem_avila;
 
 CREATE DATABASE ferragem_avila;
 
-\c ferragem_avila; */
+\c ferragem_avila;
 
-DROP TABLE IF EXISTS item;
-DROP TABLE IF EXISTS venda;
-DROP TABLE IF EXISTS produto;
-DROP FUNCTION IF EXISTS removeProdutoEstoque;
-DROP FUNCTION IF EXISTS removeProdutoEstoque_trigger;
+-- DROP TABLE IF EXISTS item;
+-- DROP TABLE IF EXISTS venda;
+-- DROP TABLE IF EXISTS produto;
+-- DROP FUNCTION IF EXISTS removeProdutoEstoque;
+-- DROP FUNCTION IF EXISTS removeProdutoEstoque_trigger;
 
 /*
 CREATE TABLE vendedor (
@@ -23,19 +23,20 @@ CREATE TABLE produto (
     descricao text not null,
     preco double precision,
    -- status boolean default true,
-    estoque integer,
+    estoque integer default 0 CHECK (estoque >= 0),
     cod_barras integer
 );
 
 CREATE TABLE venda (
     id serial primary key,
+    -- concluido false DEFAULT FALSE,
     -- vendedor_id integer references vendedor (id),
     data_hora timestamp default current_timestamp
 );
 
 CREATE TABLE item ( 
     id serial primary key,
-    quantidade double precision,
+    quantidade integer,
     -- valor_unitario double precision,
     produto_id integer references produto (id),
     venda_id integer references venda (id) ON DELETE CASCADE,
@@ -48,29 +49,26 @@ INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
 INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
 ('teste2', 100.0, 1000, 123891055);
 
-CREATE FUNCTION removeProdutoEstoque(INTEGER, INTEGER) RETURNS BOOLEAN AS
+CREATE or REPLACE FUNCTION removeProdutoEstoque(item RECORD) RETURNS BOOLEAN AS
 $$
 DECLARE
-    resultado BOOLEAN;
-    prod ALIAS FOR $1;
-    item_id ALIAS FOR $2;
-    registro INTEGER;
+    tupla_produto RECORD;
 BEGIN
-    IF prod = null and item_id = null THEN
-        resultado := false;
-    ELSE
-        resultado := true;
-        SELECT quantidade INTO registro FROM item WHERE id = item_id;
-        UPDATE produto SET estoque = (estoque * 1) - registro WHERE id = prod;
+    SELECT INTO tupla_produto * from produto where id = item.produto_id; 
+    if (tupla_produto.estoque >= item.quantidade) THEN
+        UPDATE produto SET estoque = estoque - item.quantidade WHERE id = item.produto_id;
+        RETURN TRUE;    
+    ELSE        
+        RETURN FALSE;    
     END IF;
-    RETURN resultado;
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE FUNCTION removeProdutoEstoque_trigger() RETURNS TRIGGER AS
+-- #######
+CREATE OR replace FUNCTION removeProdutoEstoque_trigger() RETURNS TRIGGER AS
 $$
 BEGIN
-    IF (removeProdutoEstoque(NEW.produto_id, NEW.id) = true) THEN
+    IF (removeProdutoEstoque(NEW)) THEN
         RETURN NEW;
     ELSE
         RAISE EXCEPTION 'Deu erro.';
@@ -79,4 +77,4 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE TRIGGER removeProdutoEstoque_trigger BEFORE INSERT OR UPDATE ON item FOR EACH ROW EXECUTE PROCEDURE removeProdutoEstoque_trigger();
+CREATE or replace TRIGGER removeProdutoEstoque_trigger after INSERT OR UPDATE ON item FOR EACH ROW EXECUTE PROCEDURE removeProdutoEstoque_trigger();
