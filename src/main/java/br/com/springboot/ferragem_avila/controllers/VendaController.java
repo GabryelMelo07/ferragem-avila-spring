@@ -6,14 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.springboot.ferragem_avila.model.Produto;
 import br.com.springboot.ferragem_avila.model.Venda;
-import br.com.springboot.ferragem_avila.repository.ProdutoRepository;
 import br.com.springboot.ferragem_avila.repository.VendaRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,11 +30,24 @@ public class VendaController {
         return new ResponseEntity<Venda>(vendaAux, HttpStatus.CREATED);
     }
     
-     @GetMapping(value = "deletar_venda", params = {"venda_id"})
+    @GetMapping(value = "deletar_venda", params = {"venda_id"})
     public ResponseEntity<String> deletar_item(@RequestParam int venda_id) {
-//        testar caso dê errado a exclusão
         vendaRepository.delete(venda_id);
         return new ResponseEntity<String>("Venda Removida.", HttpStatus.OK);
+    }
+
+    @PutMapping(value = "concluir_venda", params = {"id"})
+    @ResponseBody
+    public ResponseEntity<?> concluir_venda(@RequestParam int id) {
+        Venda venda = vendaRepository.load(id);
+        venda.setConcluida(true);
+
+        if(venda.getId() == 0) {
+            return new ResponseEntity<String>("Informe o Id para concluir a venda.", HttpStatus.OK);
+        }
+        
+        Venda v = vendaRepository.update(venda);
+        return new ResponseEntity<Venda>(v, HttpStatus.OK);
     }
     
 }

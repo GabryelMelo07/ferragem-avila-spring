@@ -1,14 +1,14 @@
-DROP DATABASE IF EXISTS ferragem_avila;
+-- DROP DATABASE IF EXISTS ferragem_avila;
 
-CREATE DATABASE ferragem_avila;
+-- CREATE DATABASE ferragem_avila;
 
-\c ferragem_avila;
+-- \c ferragem_avila;
 
--- DROP TABLE IF EXISTS item;
--- DROP TABLE IF EXISTS venda;
--- DROP TABLE IF EXISTS produto;
--- DROP FUNCTION IF EXISTS removeProdutoEstoque;
--- DROP FUNCTION IF EXISTS removeProdutoEstoque_trigger;
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS venda;
+DROP TABLE IF EXISTS produto;
+DROP FUNCTION IF EXISTS removeProdutoEstoque1;
+DROP FUNCTION IF EXISTS removeProdutoEstoque2_trigger;
 
 /*
 CREATE TABLE vendedor (
@@ -29,7 +29,7 @@ CREATE TABLE produto (
 
 CREATE TABLE venda (
     id serial primary key,
-    -- concluido false DEFAULT FALSE,
+    concluida boolean DEFAULT FALSE,
     -- vendedor_id integer references vendedor (id),
     data_hora timestamp default current_timestamp
 );
@@ -49,15 +49,35 @@ INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
 INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
 ('teste2', 100.0, 1000, 123891055);
 
-CREATE or REPLACE FUNCTION removeProdutoEstoque(item RECORD) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION vendaEstaAberta(integer) RETURNS BOOLEAN AS
+$$
+DECLARE
+    venda_rec RECORD;
+BEGIN
+    SELECT INTO venda_rec * from venda where id = $1;
+    IF (venda_rec.concluida is TRUE) THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE or REPLACE FUNCTION removeProdutoEstoque1(venda RECORD) RETURNS BOOLEAN AS
 $$
 DECLARE
     tupla_produto RECORD;
+    item_rec RECORD;
 BEGIN
-    SELECT INTO tupla_produto * from produto where id = item.produto_id; 
-    if (tupla_produto.estoque >= item.quantidade) THEN
-        UPDATE produto SET estoque = estoque - item.quantidade WHERE id = item.produto_id;
-        RETURN TRUE;    
+    SELECT INTO item_rec * from item where venda_id = venda.id;
+    SELECT INTO tupla_produto * from produto where id = item_rec.produto_id; 
+    IF (tupla_produto.estoque >= item_rec.quantidade) THEN
+        IF (vendaEstaAberta(venda.id)) THEN
+            RETURN NULL;
+        ELSE
+            UPDATE produto SET estoque = estoque - item_rec.quantidade WHERE id = item_rec.produto_id;
+            RETURN TRUE;
+        END IF;
     ELSE        
         RETURN FALSE;    
     END IF;
@@ -65,10 +85,10 @@ END;
 $$ LANGUAGE 'plpgsql';
 
 -- #######
-CREATE OR replace FUNCTION removeProdutoEstoque_trigger() RETURNS TRIGGER AS
+CREATE OR replace FUNCTION removeProdutoEstoque2_trigger() RETURNS TRIGGER AS
 $$
 BEGIN
-    IF (removeProdutoEstoque(NEW)) THEN
+    IF (removeProdutoEstoque1(NEW)) THEN
         RETURN NEW;
     ELSE
         RAISE EXCEPTION 'Deu erro.';
@@ -77,4 +97,4 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE or replace TRIGGER removeProdutoEstoque_trigger after INSERT OR UPDATE ON item FOR EACH ROW EXECUTE PROCEDURE removeProdutoEstoque_trigger();
+CREATE or replace TRIGGER removeProdutoEstoque2_trigger after UPDATE ON venda FOR EACH ROW EXECUTE PROCEDURE removeProdutoEstoque2_trigger();

@@ -61,11 +61,4 @@ public class ProdutoController {
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
 
-    @GetMapping(value = "buscarPorId_produto")
-    @ResponseBody
-    public ResponseEntity<Produto> buscarPorId_produto(@RequestParam(name = "idProduto") int idProduto) {
-        Produto prod = produtoRepository.load(idProduto);
-        return new ResponseEntity<Produto>(prod, HttpStatus.OK);
-    }
-
 }

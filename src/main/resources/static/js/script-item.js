@@ -56,6 +56,16 @@ function adicionarItem() {
 
 // melhorar esta funcao pra que atualize itens com qtdes > 1
 function listarItensVenda(venda_id) {
+    // PAINEL LATERAL
+    //$("#nroItem").val();
+    //$("#descItem").val();
+    //$("#qtd2").val();
+    //$("#vlrUnit").val();
+    //$("#vlrTotal").val();
+    //$("#totalPag").val();
+    var count_item = 1;
+    var count_valor_itens = 0.0;
+    
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/listar_itens",
@@ -64,12 +74,19 @@ function listarItensVenda(venda_id) {
         },
         success: function (response) {
             $('#resumoVenda > tbody > tr').remove();
-
+            console.log(response.length)
             for (var i = 0; i < response.length; i++) {
-                $('#resumoVenda').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].produto.descricao + '</td><td class="icon-centralized" id="tabela_valor">' + response[i].produto.preco.toLocaleString("pt-BR", {style: "currency", currency: "BRL"}) + '</td><td class="icon-centralized" id="tabela_quantidade">' + response[i].quantidade + '</td><td class="icon-centralized" id="tabela_cod_barras">' + response[i].produto.cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizarQtdItem" onclick="atualizarQtdItem(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarItem(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                var valor_item = response[i].produto.preco * response[i].quantidade;
+                count_valor_itens += valor_item;
+                $('#resumoVenda').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + count_item + '</td><td id="tabela_descricao">' + response[i].produto.descricao + '</td><td class="icon-centralized" id="tabela_valor">' + valor_item.toLocaleString("pt-BR", {style: "currency", currency: "BRL"}) + '</td><td class="icon-centralized" id="tabela_quantidade">' + response[i].quantidade + '</td><td class="icon-centralized" id="tabela_cod_barras">' + response[i].produto.cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizarQtdItem" onclick="atualizarQtdItem(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarItem(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                $("#nroItem").val(count_item);
+                $("#descItem").val(response[i].produto.descricao);
+                $("#qtd2").val(response[i].quantidade);
+                $("#vlrUnit").val(response[i].produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));
+                $("#vlrTotal").val(valor_item.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));
+                $("#totalPag").val(count_valor_itens.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));
+                count_item++;
             }
-
-            $("#totalPag").val(response[i].produto.preco * response[i].quantidade);
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro em listar item: " + xhr.responseText);
@@ -87,8 +104,16 @@ function cancelarVenda(){
         success: function (response) {
             listarItensVenda(venda_id);
             $('#resumoVenda > tbody > tr').remove();
-            localStorage.setItem("venda_id", 0);     
+            localStorage.setItem("venda_id", 0); 
             $("#venda_id").val("");
+
+            // painel lateral
+            $("#nroItem").val("");
+            $("#descItem").val("");
+            $("#qtd2").val("");
+            $("#vlrUnit").val("");
+            $("#vlrTotal").val("");
+            $("#totalPag").val("");
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro em adicionar item: " + xhr.responseText);
@@ -96,26 +121,39 @@ function cancelarVenda(){
 }
 
 function confirmarVenda() {
-//    tem que dar baixa no estoque => pendente
+    var venda_id = $("#venda_id").val();
     $('#resumoVenda > tbody > tr').remove();
     $("#inserir_id").val("");
+    $("#inserir_cod_barras").val("");
     $("#venda_id").val("");
     localStorage.removeItem("venda_id");      
-}
 
-function atualizarQtdItem(venda_id, produto_id, quantidade) {   // terminar método com atualizar item
     $.ajax({
-        method: "GET",
-        url: "http://localhost:8081/ferragem-avila/atualizar_item",
-        data: "idProduto=" + id,
+        method: "PUT",
+        url: "http://localhost:8081/ferragem-avila/concluir_venda",
+        data: {
+            id: venda_id
+        },
         success: function (response) {
-            $("#id2").val(response.id);
-            $("#descricao2").val(response.descricao);
-            $("#valor2").val(response.valor);
-            $("#quantidade2").val(response.quantidade);
-            $("#cod_barras2").val(response.cod_barras);
         }
     }).fail(function (xhr, status, errorThrown) {
-        alert("Erro ao atualizar produto: " + xhr.responseText);
+        alert("Erro ao concluir a venda: " + xhr.responseText);
     });
 }
+
+// function atualizarQtdItem(venda_id, produto_id, quantidade) {   // terminar método com atualizar item
+//     $.ajax({
+//         method: "GET",
+//         url: "http://localhost:8081/ferragem-avila/atualizar_item",
+//         data: "idProduto=" + id,
+//         success: function (response) {
+//             $("#id2").val(response.id);
+//             $("#descricao2").val(response.descricao);
+//             $("#valor2").val(response.valor);
+//             $("#quantidade2").val(response.quantidade);
+//             $("#cod_barras2").val(response.cod_barras);
+//         }
+//     }).fail(function (xhr, status, errorThrown) {
+//         alert("Erro ao atualizar produto: " + xhr.responseText);
+//     });
+// }

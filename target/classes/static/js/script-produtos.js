@@ -44,17 +44,15 @@ function pesquisarPorNome() {
 // Função que pesquisa o produto por id.
 function pesquisarPorId() {
     var id = $("#pesquisa_id").val();
-
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/buscarPorId_produto",
-        data: "idProduto=" + id,
+        data: "id=" + id,
         success: function (response) {
             $('#tabelaProdutos > tbody > tr').remove();
-
             for (var i = 0; i < response.length; i++) {
                 $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
-                        {style: "currency", currency: "BRL"}) + '</td><td id="tabela_quantidade">' + response[i].quantidade + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')">Editar</button></td><td id="tabela_btn_deletar"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')">Excluir</button></td></tr>');
+                    { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
             }
         }
     }).fail(function (xhr, status, errorThrown) {
