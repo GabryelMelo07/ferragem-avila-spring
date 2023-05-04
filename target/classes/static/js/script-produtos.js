@@ -21,9 +21,7 @@ function listarProdutos() {
 // ====================== PESQUISAR PRODUTOS ====================== \\
 
 // Função que pesquisa o produto por nome.
-function pesquisarPorNome() {
-    var nome = $('#pesquisa_nome').val();
-
+function pesquisarPorNome(nome) {
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/buscarPorNome_produto",
@@ -42,28 +40,23 @@ function pesquisarPorNome() {
 }
 
 // Função que pesquisa o produto por id.
-function pesquisarPorId() {
-    var id = $("#pesquisa_id").val();
+function pesquisarPorId(id) {
     $.ajax({
         method: "GET",
-        url: "http://localhost:8081/ferragem-avila/buscarPorId_produto",
-        data: "id=" + id,
+        url: "http://localhost:8081/ferragem-avila/buscar_produto",
+        data: {idProduto: id},
         success: function (response) {
-            $('#tabelaProdutos > tbody > tr').remove();
-            for (var i = 0; i < response.length; i++) {
-                $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
-                    { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
-            }
+            $("#tabelaProdutos > tbody > tr").remove();
+            $("#tabelaProdutos > tbody").append('<tr id="' + response.id + '"><td>' + response.id + '</td><td>' + response.descricao + '</td><td>' + response.preco.toLocaleString("pt-BR",
+                { style: "currency", currency: "BRL" }) + '</td><td>' + response.estoque + '</td><td>' + response.cod_barras + '</td><td class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response.id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
         }
-    }).fail(function (xhr, status, errorThrown) {
-        alert("Erro ao buscar produto por id: " + xhr.responseText);
+    }).fail(function(xhr, status, errorThrown) {
+        alert("Erro ao pesquisar produto por id: " + xhr.responseText);
     });
 }
 
 // Função que pesquisa o produto por código de barras.
-function pesquisarPorCodBarras() {
-    var cod_barras = $('#pesquisa_cod_barras').val();
-
+function pesquisarPorCodBarras(cod_barras) {
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/buscarPorCodBarras_produto",
@@ -89,11 +82,11 @@ function pesquisarPorFiltros() {
     var cod_barras = $("#pesquisa_cod_barras").val();
 
     if (id != null && id.trim() != '') {
-        pesquisarPorId();
+        pesquisarPorId(id);
     } else if (nome != null && nome.trim() != '') {
-        pesquisarPorNome();
+        pesquisarPorNome(nome);
     } else if (cod_barras != null && cod_barras.trim() != '') {
-        pesquisarPorCodBarras();
+        pesquisarPorCodBarras(cod_barras);
     } else {
         listarProdutos();
     }

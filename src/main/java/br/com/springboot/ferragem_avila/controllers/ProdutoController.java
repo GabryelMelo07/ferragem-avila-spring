@@ -44,7 +44,7 @@ public class ProdutoController {
 
     @GetMapping(value = "buscar_produto")
     @ResponseBody
-    public ResponseEntity<Produto> buscar_produto(@RequestParam(name = "idProduto") int idProduto) {
+    public ResponseEntity<Produto> buscar_produto(@RequestParam int idProduto) {
         Produto prod = produtoRepository.load(idProduto);
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
