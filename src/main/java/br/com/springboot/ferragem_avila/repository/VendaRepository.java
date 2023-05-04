@@ -25,8 +25,8 @@ public class VendaRepository implements IRepository<Venda> {
 
     @Override
     public Venda update(Venda venda) {
-        String sqlUpdate = "UPDATE venda SET data_hora = ?, concluida = ? WHERE id = ?;";
-        jdbcTemplate.update(sqlUpdate, venda.getData(), venda.getConcluida(), venda.getId());
+        String sqlUpdate = "UPDATE venda SET concluida = ? WHERE id = ?;";
+        jdbcTemplate.update(sqlUpdate, venda.getConcluida(), venda.getId());
         return this.load(venda.getId());
     }
 
@@ -45,8 +45,14 @@ public class VendaRepository implements IRepository<Venda> {
 
     @Override
     public Venda load(int id) {
-        String sqlSelect = "SELECT * FROM venda WHERE id = ?;";
-        return jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Venda.class), id);
+        String sqlSelectRows = "SELECT count(*) as rows FROM venda WHERE id = ?;";
+        int rows = jdbcTemplate.queryForObject(sqlSelectRows, Integer.class, id);
+        Venda venda = new Venda();
+        if (rows > 0) {
+            String sqlSelect = "SELECT * FROM venda WHERE id = ?;";
+            venda = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Venda.class), id);
+        }
+        return venda;
     }
 
     public Item existsItem(int venda_id, int produto_id) {

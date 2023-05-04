@@ -28,12 +28,7 @@ public class ItemController {
     @Autowired
     private VendaRepository vendaRepository;
 
-    @GetMapping(value = "listartodos_item") // Método para listar todos objetos do bd \\    
-    public ResponseEntity<Iterable<Item>> listartodos_item() {
-        return new ResponseEntity<>(itemRepository.list(), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "listar_itens", params = {"venda_id"}) // Método para listar todos objetos do bd \\    
+    @GetMapping(value = "listar_itens", params = {"venda_id"})   
     public ResponseEntity<Iterable<Item>> listarItens(@RequestParam int venda_id) {
         return new ResponseEntity<>(itemRepository.listItensByVenda(venda_id), HttpStatus.OK);
     }

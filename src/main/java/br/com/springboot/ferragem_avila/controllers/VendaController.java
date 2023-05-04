@@ -41,11 +41,6 @@ public class VendaController {
     public ResponseEntity<?> concluir_venda(@RequestParam int id) {
         Venda venda = vendaRepository.load(id);
         venda.setConcluida(true);
-
-        if(venda.getId() == 0) {
-            return new ResponseEntity<String>("Informe o Id para concluir a venda.", HttpStatus.OK);
-        }
-        
         Venda v = vendaRepository.update(venda);
         return new ResponseEntity<Venda>(v, HttpStatus.OK);
     }

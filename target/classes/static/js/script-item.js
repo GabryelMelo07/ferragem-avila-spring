@@ -135,6 +135,11 @@ function confirmarVenda() {
             id: venda_id
         },
         success: function (response) {
+            if (response.id != 0) {
+                alert("Venda concluida com sucesso.");
+            } else {
+                alert("Venda não concluida, estoque insuficiente.");
+            }
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro ao concluir a venda: " + xhr.responseText);

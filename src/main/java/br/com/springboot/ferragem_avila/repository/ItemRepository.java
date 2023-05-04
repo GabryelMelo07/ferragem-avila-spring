@@ -27,13 +27,8 @@ public class ItemRepository implements IRepository<Item> {
     public List<Item> list() {
         return jdbcTemplate.query("SELECT * FROM item ORDER BY id ASC", BeanPropertyRowMapper.newInstance(Item.class));
     }
-
-    /* public List<Item> listItensByVenda(int venda_id) {      // SEM CÓDIGO DE BARRAS
-        String sqlSelectByVenda = "SELECT item.id as id, item.quantidade as quantidade, item.produto_id, produto.descricao, produto.estoque, produto.preco, item.venda_id, venda.data_hora from item inner join produto on (item.produto_id = produto.id) inner join venda on (venda.id = item.venda_id) WHERE item.venda_id = ?";
-        return jdbcTemplate.query(sqlSelectByVenda, new ItemMapper(), venda_id);
-    } */
     
-    public List<Item> listItensByVenda(int venda_id) {                  // COM CÓDIGO DE BARRAS
+    public List<Item> listItensByVenda(int venda_id) {
         String sqlSelectByVenda = "SELECT item.id as id, item.quantidade as quantidade, item.produto_id, produto.descricao, produto.estoque, produto.cod_barras, produto.preco, item.venda_id, venda.data_hora from item inner join produto on (item.produto_id = produto.id) inner join venda on (venda.id = item.venda_id) WHERE item.venda_id = ?";
         return jdbcTemplate.query(sqlSelectByVenda, new ItemMapper(), venda_id);
     }
