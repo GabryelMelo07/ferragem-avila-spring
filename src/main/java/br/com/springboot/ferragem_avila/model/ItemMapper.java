@@ -1,30 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.springboot.ferragem_avila.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-/**
- *
- * @author iapereira
- */
 public class ItemMapper  implements RowMapper<Item> {
-//  pendente => de repente deslocar isso para o ItemRepository (como metodo, como uma classe privada/interna ou etc.)
     @Override
     public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
         Item item = new Item();
         item.setId(rs.getInt("id"));
-        item.setQuantidade((int)rs.getDouble("quantidade"));
+        item.setQuantidade(rs.getInt("quantidade"));
+        item.setPreco_item(rs.getDouble("preco_item"));
         Produto itemProduto = new Produto();
         itemProduto.setId(rs.getInt("produto_id"));
         itemProduto.setDescricao(rs.getString("descricao"));
         itemProduto.setEstoque(rs.getInt("estoque"));
         itemProduto.setPreco(rs.getDouble("preco"));
-        itemProduto.setCod_barras(rs.getLong("cod_barras")); // add cod barras
+        itemProduto.setCod_barras(rs.getLong("cod_barras"));
         item.setProduto(itemProduto);
         Venda itemVenda = new Venda();
         itemVenda.setId(rs.getInt("venda_id"));

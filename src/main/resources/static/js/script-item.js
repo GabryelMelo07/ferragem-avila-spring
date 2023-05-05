@@ -1,6 +1,5 @@
 function loadVendaLocalStorage(){
     var venda_id = localStorage.getItem("venda_id");
-//    alert(venda_id);
     if (venda_id !== null && venda_id !== "0") {
         $("#venda_id").val(venda_id);
         listarItensVenda(venda_id);
@@ -28,41 +27,46 @@ function adicionarItem() {
     venda_id = ((venda_id !== "") ? venda_id : 0);
     var produto_id = $("#inserir_id").val();
     var quantidade = 1;
-    var cod_barras = $("#cod_barras").val(); // código de barras
+    var preco_item = 0;
 
     $.ajax({
         method: "GET",
-        url: "http://localhost:8081/ferragem-avila/salvar_item",
-        data: {
-            venda_id: venda_id,
-            produto_id: produto_id,
-            quantidade: quantidade,
-            cod_barras: cod_barras
-        },
+        url: "http://localhost:8081/ferragem-avila/buscar_produto",
+        data: { idProduto: produto_id },
         success: function (response) {
-            var item = response;
-            if (item.id !== 0) {
-                $("#venda_id").val(item.venda.id);
-                localStorage.setItem("venda_id", item.venda.id);
-                listarItensVenda(item.venda.id);
-            } else {
-                alert("Produto inexistente");
-            }
+            preco_item = response.preco;
+
+            $.ajax({
+                method: "GET",
+                url: "http://localhost:8081/ferragem-avila/salvar_item",
+                data: {
+                    venda_id: venda_id,
+                    produto_id: produto_id,
+                    quantidade: quantidade,
+                    preco_item: preco_item
+                },
+                success: function (response) {
+                    var item = response;
+                    if (item.id !== 0) {
+                        $("#venda_id").val(item.venda.id);
+                        localStorage.setItem("venda_id", item.venda.id);
+                        listarItensVenda(item.venda.id);
+                    } else {
+                        alert("Produto inexistente");
+                    }
+                }
+            }).fail(function (xhr, status, errorThrown) {
+                alert("Erro em adicionar item: " + xhr.responseText);
+            });
+            
         }
     }).fail(function (xhr, status, errorThrown) {
-        alert("Erro em adicionar item: " + xhr.responseText);
+        alert("Erro ao buscar valor do item pelo id: " + xhr.responseText);
     });
 }
 
 // melhorar esta funcao pra que atualize itens com qtdes > 1
 function listarItensVenda(venda_id) {
-    // PAINEL LATERAL
-    //$("#nroItem").val();
-    //$("#descItem").val();
-    //$("#qtd2").val();
-    //$("#vlrUnit").val();
-    //$("#vlrTotal").val();
-    //$("#totalPag").val();
     var count_item = 1;
     var count_valor_itens = 0.0;
     
@@ -74,7 +78,6 @@ function listarItensVenda(venda_id) {
         },
         success: function (response) {
             $('#resumoVenda > tbody > tr').remove();
-            console.log(response.length)
             for (var i = 0; i < response.length; i++) {
                 var valor_item = response[i].produto.preco * response[i].quantidade;
                 count_valor_itens += valor_item;

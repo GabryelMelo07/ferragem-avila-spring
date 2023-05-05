@@ -33,15 +33,16 @@ public class ItemController {
         return new ResponseEntity<>(itemRepository.listItensByVenda(venda_id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "salvar_item", params = {"venda_id", "produto_id", "quantidade"})
-    public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade) {
+    @GetMapping(value = "salvar_item", params = {"venda_id", "produto_id", "quantidade", "preco_item"})
+    public ResponseEntity<Item> salvar_item(@RequestParam int venda_id, @RequestParam int produto_id, @RequestParam int quantidade, @RequestParam Double preco_item) {
 
         Produto produto = produtoRepository.load(produto_id);
 
         if (produto != null) {
             Item item = new Item();
             item.setProduto(produto);
-            item.setQuantidade(1);
+            item.setQuantidade(quantidade);
+            item.setPreco_item(preco_item * quantidade);
             if (venda_id != 0) {
                 item = vendaRepository.existsItem(venda_id, produto_id);
                 if (item != null) {
@@ -49,10 +50,10 @@ public class ItemController {
                     item.setVenda(this.vendaRepository.load(venda_id));
                     return new ResponseEntity<Item>(item, HttpStatus.OK);
                 } else {
-
                     item = new Item();
                     item.setProduto(produto);
-                    item.setQuantidade(1);
+                    item.setQuantidade(quantidade);
+                    item.setPreco_item(preco_item * quantidade);
                     item.setVenda(this.vendaRepository.load(venda_id));
                     itemRepository.save(item);
                     return new ResponseEntity<Item>(item, HttpStatus.OK);

@@ -77,4 +77,11 @@ public class ProdutoController {
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
 
+    /* @GetMapping(value = "preco_atual_produto")
+    public Double preco_atual_produto(@RequestParam int idProduto) {
+        Produto prod = produtoRepository.load(idProduto);
+        Double preco_produto = prod.getPreco();
+        return preco_produto;
+    } */
+
 }
