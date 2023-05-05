@@ -1,5 +1,7 @@
 package br.com.springboot.ferragem_avila.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,18 @@ public class VendaController {
         venda.setConcluida(true);
         Venda v = vendaRepository.update(venda);
         return new ResponseEntity<Venda>(v, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "buscar_venda")
+    @ResponseBody
+    public ResponseEntity<Venda> buscar_venda(@RequestParam int idVenda) {
+        Venda venda = vendaRepository.load(idVenda);
+        return new ResponseEntity<Venda>(venda, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "listartodos_vendas")
+    public ResponseEntity<Iterable<Venda>> listartodos_vendas() {
+        return new ResponseEntity<>(vendaRepository.list(), HttpStatus.OK);
     }
     
 }

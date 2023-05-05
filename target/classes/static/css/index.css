@@ -93,15 +93,6 @@ main .main-content { /* Previnindo que o layout da página seja quebrado quando 
     width: 85%;
 }
 
-.index-panel-info-50 { /* Div onde vai ocupar metade do espaço disponível para 2 inputs */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 75%;
-}
-
 .index-panel-info-btn { /* Div pai dos botões de confirmar e cancelar a venda */ 
     display: flex;
     flex-direction: row;
