@@ -1,5 +1,7 @@
 package br.com.springboot.ferragem_avila.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +48,20 @@ public class ProdutoController {
     @ResponseBody
     public ResponseEntity<Produto> buscar_produto(@RequestParam int idProduto) {
         Produto prod = produtoRepository.load(idProduto);
+        return new ResponseEntity<Produto>(prod, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "buscar_por_nome")
+    @ResponseBody
+    public ResponseEntity<List<Produto>> buscar_por_nome(@RequestParam String descricao) {
+        List<Produto> produtos = produtoRepository.loadByName(descricao);
+        return new ResponseEntity<>(produtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "buscar_por_cod_barras")
+    @ResponseBody
+    public ResponseEntity<Produto> buscar_por_cod_barras(@RequestParam int cod_barras) {
+        Produto prod = produtoRepository.loadByCodBarras(cod_barras);
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
 

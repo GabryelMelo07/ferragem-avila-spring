@@ -1,6 +1,5 @@
 // Função que lista todos produtos.
 function listarProdutos() {
-
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/listartodos_produto",
@@ -15,23 +14,23 @@ function listarProdutos() {
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro ao listar produtos: " + xhr.responseText);
     });
-
 }
 
 // ====================== PESQUISAR PRODUTOS ====================== \\
 
 // Função que pesquisa o produto por nome.
-function pesquisarPorNome(nome) {
+function pesquisarPorNome(descricao) {
+    console.log("chegou aqui")
     $.ajax({
         method: "GET",
-        url: "http://localhost:8081/ferragem-avila/buscarPorNome_produto",
-        data: "nome=" + nome,
+        url: "http://localhost:8081/ferragem-avila/buscar_por_nome",
+        data: "descricao=" + descricao,
         success: function (response) {
             $('#tabelaProdutos > tbody > tr').remove();
-
+            console.log(response.length)
             for (var i = 0; i < response.length; i++) {
-                $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_nome">' + response[i].nome + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].valor.toLocaleString("pt-BR",
-                        {style: "currency", currency: "BRL"}) + '</td><td id="tabela_quantidade">' + response[i].quantidade + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')">Editar</button></td><td id="tabela_btn_deletar"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')">Excluir</button></td></tr>');
+                $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
+                    { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
             }
         }
     }).fail(function (xhr, status, errorThrown) {
@@ -59,15 +58,12 @@ function pesquisarPorId(id) {
 function pesquisarPorCodBarras(cod_barras) {
     $.ajax({
         method: "GET",
-        url: "http://localhost:8081/ferragem-avila/buscarPorCodBarras_produto",
-        data: "cod_barras=" + cod_barras,
+        url: "http://localhost:8081/ferragem-avila/buscar_por_cod_barras",
+        data: {cod_barras: cod_barras},
         success: function (response) {
             $('#tabelaProdutos > tbody > tr').remove();
-
-            for (var i = 0; i < response.length; i++) {
-                $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_nome">' + response[i].nome + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].valor.toLocaleString("pt-BR",
-                        {style: "currency", currency: "BRL"}) + '</td><td id="tabela_quantidade">' + response[i].quantidade + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')">Editar</button></td><td id="tabela_btn_deletar"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')">Excluir</button></td></tr>');
-            }
+            $("#tabelaProdutos > tbody").append('<tr id="' + response.id + '"><td>' + response.id + '</td><td>' + response.descricao + '</td><td>' + response.preco.toLocaleString("pt-BR",
+                { style: "currency", currency: "BRL" }) + '</td><td>' + response.estoque + '</td><td>' + response.cod_barras + '</td><td class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response.id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro ao buscar produto por código de barras: " + xhr.responseText);
