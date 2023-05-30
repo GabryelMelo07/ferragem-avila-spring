@@ -85,8 +85,9 @@
 				</div>
 
 				<div class="page-btns" id="paginas">
-					<button id="botao-voltar-pagina">&lt;</button>
-					<button id="botao-avancar-pagina">&gt;</button>
+					<button class="btn btn-dark" id="botao-voltar-pagina" onclick="previous_page()"><i class="fa-solid fa-arrow-left"></i></button>
+					<button class="btn btn-dark" id="pagina-atual"></button>
+					<button class="btn btn-dark" id="botao-avancar-pagina" onclick="next_page()"><i class="fa-solid fa-arrow-right"></i></button>
 				</div>
 				
 			</div>
@@ -110,31 +111,31 @@
       <div class="modal-body">
       
       	<form action="" id="formCadastroProduto">
-						<div  class="form-group col-md-12">
-							<label class="labelText" for="id">ID:</label>
-						 	<input type="text" class="form-control" id="id" readonly="readonly">
-						</div>
-						
-						<div class="form-group col-md-12">
-							<label class="labelText" for="descricao">Descrição:</label>
-							<input type="text" class="form-control" id="descricao" placeholder="Digite a descrição...">
-						</div>
-					
-						<div class="form-group col-md-12">
-							<label class="labelText" for="valor">Valor:</label> 
-							<input type="number" min="0" max="999999" step="0.01" class="form-control" id="valor" placeholder="Digite o valor (somente números)...">
-						</div>
-					
-						<div class="form-group col-md-12">
-							<label class="labelText" for="quantidade">Quantidade no Estoque:</label> 
-							<input type="number" class="form-control" id="quantidade" placeholder="Digite a quantidade de estoque (somente números)...">
-						</div>
-						
-						<div class="form-group col-md-12">
-							<label class="labelText" for="cod_barras">Código de Barras:</label> 
-							<input type="number" min="0" max="999999" class="form-control" id="cod_barras" placeholder="Escaneie o código...">
-						</div>
-			</form>
+			<div  class="form-group col-md-12">
+				<label class="labelText" for="id">ID:</label>
+				<input type="text" class="form-control" id="id" readonly="readonly">
+			</div>
+			
+			<div class="form-group col-md-12">
+				<label class="labelText" for="descricao">Descrição:</label>
+				<input type="text" class="form-control" id="descricao" placeholder="Digite a descrição...">
+			</div>
+		
+			<div class="form-group col-md-12">
+				<label class="labelText" for="valor">Valor:</label> 
+				<input type="number" min="0" max="999999" step="0.01" class="form-control" id="valor" placeholder="Digite o valor (somente números)...">
+			</div>
+		
+			<div class="form-group col-md-12">
+				<label class="labelText" for="quantidade">Quantidade no Estoque:</label> 
+				<input type="number" class="form-control" id="quantidade" placeholder="Digite a quantidade de estoque (somente números)...">
+			</div>
+			
+			<div class="form-group col-md-12">
+				<label class="labelText" for="cod_barras">Código de Barras:</label> 
+				<input type="number" min="0" max="999999" class="form-control" id="cod_barras" placeholder="Escaneie o código...">
+			</div>
+		</form>
       
       </div>
       <div class="modal-footer">
@@ -190,8 +191,8 @@
       
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="listarProdutos()">Cancelar</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="salvarProdutoAtualizado()">Salvar</button>
+      	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="atualizarProduto()">Salvar</button>
       </div>
     </div>
   </div>

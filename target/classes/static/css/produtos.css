@@ -130,3 +130,21 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.page-btns {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#botao-voltar-pagina, #botao-avancar-pagina {
+    width: 45px;
+    height: 35px;
+    text-align: center;
+}
+
+#pagina-atual {
+    height: 35px;
+}

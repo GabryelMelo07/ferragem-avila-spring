@@ -82,8 +82,8 @@ public class ProdutoController {
         return new ResponseEntity<>(produtoRepository.list_page(page), HttpStatus.OK);
     }
 
-    @GetMapping(value = "num_page") // Método para listar todos objetos do bd POR PAGINA \\
-    public int num_page() {
+    @GetMapping(value = "total_paginas") // Método para listar todos objetos do bd POR PAGINA \\
+    public int total_paginas() {
         return produtoRepository.num_pages();
     }
 }
