@@ -3,7 +3,7 @@ package br.com.ferragem_avila.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ferragem_avila.model.Item;
@@ -15,6 +15,7 @@ import br.com.ferragem_avila.repository.VendaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 public class ItemController {
@@ -46,7 +47,7 @@ public class ItemController {
             if (venda_id != 0) {
                 item = vendaRepository.existsItem(venda_id, produto_id);
                 if (item != null) {
-                    itemRepository.updateQuantidade(venda_id, produto_id);
+                    itemRepository.updateQuantidade_1unidade(venda_id, produto_id);
                     item.setVenda(this.vendaRepository.load(venda_id));
                     return new ResponseEntity<Item>(item, HttpStatus.OK);
                 } else {
@@ -75,6 +76,18 @@ public class ItemController {
     public ResponseEntity<String> deletar_item(@RequestParam int item_id) {
         itemRepository.delete(item_id);
         return new ResponseEntity<String>("Item Removido.", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "buscar_item")
+    @ResponseBody
+    public ResponseEntity<Item> buscar_item(@RequestParam int idItem) {
+        Item prod = itemRepository.load(idItem);
+        return new ResponseEntity<Item>(prod, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "atualizar_quantidade")
+    public void atualizar_quantidade(@RequestParam int id, @RequestParam int quantidade) {
+        itemRepository.updateQuantidade(id, quantidade);
     }
 
 }

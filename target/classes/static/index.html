@@ -151,6 +151,8 @@
         
     </div>    
 
+    <!-- MODAL DE ATUALIZAR QTD DO ITEM -->
+
     <div class="modal fade" id="modalAtualizarQtdItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -165,20 +167,19 @@
                     <form action="" id="formCadastroProduto">
                         <div class="form-group col-md-12">
                             <label class="labelText" for="id">ID:</label>
-                            <input type="text" class="form-control" id="id" readonly="readonly">
+                            <input type="text" class="form-control" id="id_att_item" readonly="readonly">
                         </div>
                     
                         <div class="form-group col-md-12">
                             <label class="labelText" for="quantidadeProd">Quantidade do Produto:</label>
-                            <input type="number" class="form-control" id="quantidadeProd"
-                                placeholder="Digite a quantidade de produtos do item (somente números)...">
+                            <input type="number" class="form-control" id="quantidadeProd" placeholder="Digite a quantidade de produtos do item...">
                         </div>
                     </form>
     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" onclick="salvarProduto()">Salvar</button>
+                    <button type="button" class="btn btn-success"  data-dismiss="modal" onclick="atualizarItem()">Salvar</button>
                 </div>
             </div>
         </div>

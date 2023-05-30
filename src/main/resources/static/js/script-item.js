@@ -80,7 +80,7 @@ function listarItensVenda(venda_id) {
             for (var i = 0; i < response.length; i++) {
                 var valor_item = response[i].produto.preco * response[i].quantidade;
                 count_valor_itens += valor_item;
-                $('#resumoVenda').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + count_item + '</td><td id="tabela_descricao">' + response[i].produto.descricao + '</td><td class="icon-centralized" id="tabela_valor">' + valor_item.toLocaleString("pt-BR", {style: "currency", currency: "BRL"}) + '</td><td class="icon-centralized" id="tabela_quantidade">' + response[i].quantidade + '</td><td class="icon-centralized" id="tabela_cod_barras">' + response[i].produto.cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizarQtdItem" onclick="atualizarQtdItem(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarItem(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                $('#resumoVenda').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + count_item + '</td><td id="tabela_descricao">' + response[i].produto.descricao + '</td><td class="icon-centralized" id="tabela_valor">' + valor_item.toLocaleString("pt-BR", {style: "currency", currency: "BRL"}) + '</td><td class="icon-centralized" id="tabela_quantidade">' + response[i].quantidade + '</td><td class="icon-centralized" id="tabela_cod_barras">' + response[i].produto.cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizarQtdItem" onclick="loadItem(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarItem(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
                 $("#nroItem").val(count_item);
                 $("#descItem").val(response[i].produto.descricao);
                 $("#qtd2").val(response[i].quantidade);
@@ -148,19 +148,32 @@ function confirmarVenda() {
     });
 }
 
-// function atualizarQtdItem(venda_id, produto_id, quantidade) {   // terminar método com atualizar item
-//     $.ajax({
-//         method: "GET",
-//         url: "http://localhost:8081/ferragem-avila/atualizar_item",
-//         data: "idProduto=" + id,
-//         success: function (response) {
-//             $("#id2").val(response.id);
-//             $("#descricao2").val(response.descricao);
-//             $("#valor2").val(response.valor);
-//             $("#quantidade2").val(response.quantidade);
-//             $("#cod_barras2").val(response.cod_barras);
-//         }
-//     }).fail(function (xhr, status, errorThrown) {
-//         alert("Erro ao atualizar produto: " + xhr.responseText);
-//     });
-// }
+function loadItem(id) {
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8081/ferragem-avila/buscar_item",
+        data: "idItem=" + id,
+        success: function (response) {
+            $("#id_att_item").val(response.id);
+        }
+    }).fail(function (xhr, status, errorThrown) {
+        alert("Erro ao carregar item: " + xhr.responseText);
+    });
+}
+
+function atualizarItem() {
+    var id = $("#id_att_item").val();
+    var quantidade = $("#quantidadeProd").val();
+    // var venda_id = localStorage.getItem("venda_id");
+
+    $.ajax({
+        method: "PUT",
+        url: "http://localhost:8081/ferragem-avila/atualizar_quantidade",
+        data: {id: id, quantidade:quantidade},
+        success: function (response) {
+            loadVendaLocalStorage();
+        }
+    }).fail(function (xhr, status, errorThrown) {
+        alert("Erro ao carregar item: " + xhr.responseText);
+    });
+}
