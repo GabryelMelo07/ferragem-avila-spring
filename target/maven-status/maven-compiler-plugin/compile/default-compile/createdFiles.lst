@@ -1,5 +1,6 @@
 br\com\springboot\ferragem_avila\Application.class
 br\com\springboot\ferragem_avila\model\Venda.class
+br\com\springboot\ferragem_avila\model\ItemMapper.class
 br\com\springboot\ferragem_avila\model\Item.class
 br\com\springboot\ferragem_avila\repository\ItemRepository.class
 br\com\springboot\ferragem_avila\model\Produto.class

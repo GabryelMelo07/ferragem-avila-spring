@@ -77,11 +77,13 @@ public class ProdutoController {
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
 
-    /* @GetMapping(value = "preco_atual_produto")
-    public Double preco_atual_produto(@RequestParam int idProduto) {
-        Produto prod = produtoRepository.load(idProduto);
-        Double preco_produto = prod.getPreco();
-        return preco_produto;
-    } */
+    @GetMapping(value = "listar_por_pagina") // Método para listar todos objetos do bd POR PAGINA \\
+    public ResponseEntity<Iterable<Produto>> listar_por_pagina(@RequestParam int page) {
+        return new ResponseEntity<>(produtoRepository.list_page(page), HttpStatus.OK);
+    }
 
+    @GetMapping(value = "num_page") // Método para listar todos objetos do bd POR PAGINA \\
+    public int num_page() {
+        return produtoRepository.num_pages();
+    }
 }

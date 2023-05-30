@@ -56,7 +56,7 @@ function adicionarItem() {
                     }
                 }
             }).fail(function (xhr, status, errorThrown) {
-                alert("Erro em adicionar item: " + xhr.responseText);
+                alert("Produto inexistente");
             });
             
         }
@@ -67,9 +67,6 @@ function adicionarItem() {
 
 // melhorar esta funcao pra que atualize itens com qtdes > 1
 function listarItensVenda(venda_id) {
-    var count_item = 1;
-    var count_valor_itens = 0.0;
-    
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/listar_itens",
@@ -77,6 +74,8 @@ function listarItensVenda(venda_id) {
             venda_id: venda_id
         },
         success: function (response) {
+            var count_item = 1;
+            var count_valor_itens = 0.0;
             $('#resumoVenda > tbody > tr').remove();
             for (var i = 0; i < response.length; i++) {
                 var valor_item = response[i].produto.preco * response[i].quantidade;

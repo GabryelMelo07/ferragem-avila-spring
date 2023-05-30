@@ -37,6 +37,16 @@ public class ProdutoRepository implements IRepository<Produto> {
         return jdbcTemplate.query("SELECT * from produto where produto.id not in (SELECT produto.id from produto inner join item on (produto.id = item.produto_id) where item.venda_id = ?)", BeanPropertyRowMapper.newInstance(Produto.class), venda_id);
     }
 
+    public int num_pages() {
+        String selectRows = "SELECT count(*) FROM produto;";
+        int rows = jdbcTemplate.queryForObject(selectRows, Integer.class);
+        return rows / 2 + rows % 2;  // dividir pela quantidade de itens que quer na página
+    }
+
+    public List<Produto> list_page(int page) {
+        return jdbcTemplate.query("SELECT * FROM produto ORDER BY id ASC LIMIT 2 OFFSET ?;", BeanPropertyRowMapper.newInstance(Produto.class), ((page - 1) * 2));
+    }
+
     @Override
     public Produto save(Produto produto) {
         String sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES (?,?,?,?) RETURNING id";         

@@ -109,7 +109,6 @@ function salvarProduto() {
     $.ajax({
         method: "POST",
         url: "http://localhost:8081/ferragem-avila/salvar_produto",
-//    	data: JSON.stringify({id: id, nome: nome, descricao: descricao, preco: valor, quantidade: quantidade, cod_barras: cod_barras}),
         data: JSON.stringify({id: id, descricao: descricao, preco: valor, estoque: quantidade, cod_barras: cod_barras}),
         contentType: "application/json; charset=utf-8",
         success: function (response) {
@@ -189,3 +188,46 @@ function deletarProduto(id) {
 }
 
 // =================================================================== \\
+
+function buscar_total_paginas() {
+    let pages = 0;
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8081/ferragem-avila/num_page",
+        success: function (response) {
+            pages = response;
+        }
+    }).fail(function (xhr, status, errorThrown) {
+        alert("Erro ao buscar o total de páginas");
+    });
+    return pages;
+}
+
+var total_paginas = buscar_total_paginas();
+console.log(total_paginas);
+
+function listar_pagina(page) {
+
+    if (page > total_paginas) {
+        alert("páginas acabaram...")
+    } else if (page > 1 && page < total_paginas) {
+        $.ajax({
+            method: "GET",
+            url: "http://localhost:8081/ferragem-avila/listar_por_pagina",
+            data: "page=" + page,
+            success: function (response) {
+                $('#tabelaProdutos > tbody > tr').remove();
+                for (var i = 0; i < response.length; i++) {
+                    $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
+                        { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="atualizarProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                }
+            }
+        }).fail(function (xhr, status, errorThrown) {
+            alert("Erro ao listar página de produtos: " + xhr.responseText);
+        });
+    }    
+}
+
+// preciso saber a página atual
+// document.getElementById("botao-voltar-pagina").addEventListener("click", listar_pagina())
+
