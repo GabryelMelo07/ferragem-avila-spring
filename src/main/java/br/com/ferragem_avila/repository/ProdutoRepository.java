@@ -68,11 +68,11 @@ public class ProdutoRepository implements IRepository<Produto> {
     }
 
     public List<Produto> loadByName(String descricao) {
-        return jdbcTemplate.query("SELECT * FROM produto WHERE descricao LIKE '" + descricao + "%' ORDER BY id;", BeanPropertyRowMapper.newInstance(Produto.class));
+        return jdbcTemplate.query("SELECT * FROM produto WHERE upper(descricao) LIKE '" + descricao.toUpperCase() + "%' ORDER BY id;", BeanPropertyRowMapper.newInstance(Produto.class));
     }
 
-    public Produto loadByCodBarras(int cod_barras) {
-        return jdbcTemplate.queryForObject("SELECT * FROM produto WHERE cod_barras = ?", BeanPropertyRowMapper.newInstance(Produto.class), cod_barras);
+    public Produto loadByCodBarras(long cod_barras) {
+        return jdbcTemplate.queryForObject("SELECT * FROM produto WHERE cod_barras = ?;", BeanPropertyRowMapper.newInstance(Produto.class), cod_barras);
     }
 
 }

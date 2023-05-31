@@ -60,7 +60,7 @@ public class ProdutoController {
 
     @GetMapping(value = "buscar_por_cod_barras")
     @ResponseBody
-    public ResponseEntity<Produto> buscar_por_cod_barras(@RequestParam int cod_barras) {
+    public ResponseEntity<Produto> buscar_por_cod_barras(@RequestParam long cod_barras) {
         Produto prod = produtoRepository.loadByCodBarras(cod_barras);
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }

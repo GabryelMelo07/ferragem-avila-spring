@@ -6,7 +6,7 @@ public class Produto {
     private String descricao;
     private int estoque;
     private double preco;
-    private long cod_barras;  // add cod barras
+    private long cod_barras;  
 
     public Produto() {
     }
@@ -47,17 +47,17 @@ public class Produto {
         this.preco = preco;
     }
 
-    public long getCod_barras() {   // add cod barras
+    public long getCod_barras() {   
         return cod_barras;
     }
 
-    public void setCod_barras(long cod_barras) {    // add cod barras
+    public void setCod_barras(long cod_barras) {    
         this.cod_barras = cod_barras;
     }
 
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", descricao=" + descricao + ", estoque=" + estoque + ", preco=" + preco + ", cod_barras=" + cod_barras + "}";  // add cod barras
+        return "Produto{" + "id=" + id + ", descricao=" + descricao + ", estoque=" + estoque + ", preco=" + preco + ", cod_barras=" + cod_barras + "}";  
     }
 
 }

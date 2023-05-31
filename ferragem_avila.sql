@@ -19,32 +19,37 @@ CREATE TABLE vendedor (
 );*/ 
 
 CREATE TABLE produto (
-    id serial primary key,
+    id serial,
     descricao text not null,
     preco double precision,
    -- status boolean default true,
     estoque integer default 0 CHECK (estoque >= 0),
-    cod_barras integer
+    cod_barras bigint unique,
+    primary key (id)
 );
 
 CREATE TABLE venda (
-    id serial primary key,
+    id serial,
     concluida boolean DEFAULT FALSE,
     -- vendedor_id integer references vendedor (id),
-    data_hora timestamp default current_timestamp
+    data_hora timestamp default current_timestamp,
+    primary key (id)
 );
 
 CREATE TABLE item ( 
-    id serial primary key,
+    id serial,
     quantidade integer,
     preco_item double precision,
-    produto_id integer references produto (id),
-    venda_id integer references venda (id) ON DELETE CASCADE,
-    UNIQUE(produto_id, venda_id)
+    produto_id integer,
+    venda_id integer,
+    foreign key (produto_id) references produto (id),
+    foreign key (venda_id) references venda (id) ON DELETE CASCADE,
+    UNIQUE(produto_id, venda_id),
+    primary key(id)
 );
 
 INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
-('teste1', 100.0, 1000, 123456711);
+('Prego', 19.99, 100, 123456711);
 
 INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
 ('teste2', 100.0, 1000, 123891055);

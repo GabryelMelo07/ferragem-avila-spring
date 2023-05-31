@@ -139,7 +139,7 @@
                         
                         <div class="index-panel-info-btn">
                             <button id="botao_cancelar_venda" type="button" class="btn btn-danger" onclick="cancelarVenda()">Cancelar</button>
-                            <button id="botao_concluir_venda" type="button" class="btn btn-success" onclick="confirmarVenda()">Concluir</button>
+                            <button id="botao_concluir_venda" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalFormaPagamento">Concluir</button>
                         </div>
                     </div>
                     
@@ -180,6 +180,38 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-success"  data-dismiss="modal" onclick="atualizarItem()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA ESCOLHER FORMA DE PAGAMENTO DA VENDA -->
+    <div class="modal fade" id="modalFormaPagamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Forma de pagamento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="formCadastroProduto">
+                        <div class="mb-3">
+                            <div class="form-group col-md-12">
+                                <select class="form-select" id="forma_pagamento">
+                                    <option selected>Selecionar...</option>
+                                    <option value="1">Dinheiro</option>
+                                    <option value="2">Cartão</option>
+                                    <option value="3">Pix</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="confirmarVenda()">Confirmar</button>
                 </div>
             </div>
         </div>
