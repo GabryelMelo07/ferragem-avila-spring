@@ -9,12 +9,15 @@ public class Venda {
     private LocalDate data;
     private boolean concluida;
     private ArrayList<Item> itens;
+    private String forma_pagamento;
+    private String itensString;
     // implementar vendedor
 
-    public Venda(LocalDate data, boolean concluida, ArrayList<Item> itens) {
+    public Venda(LocalDate data, boolean concluida, ArrayList<Item> itens, String forma_pagamento) {
         this.data = data;
         this.concluida = concluida;
         this.itens = itens;
+        this.forma_pagamento = forma_pagamento;
     }
 
     public Venda() {
@@ -51,6 +54,22 @@ public class Venda {
 
     public void setItens(ArrayList<Item> itens) {
         this.itens = itens;
+    }
+
+    public String getForma_pagamento() {
+        return forma_pagamento;
+    }
+
+    public void setForma_pagamento(String forma_pagamento) {
+        this.forma_pagamento = forma_pagamento;
+    }
+
+    public void setItensString(String string) {
+        this.itensString = string;
+    }
+
+    public String getItensString() {
+        return itensString;
     }
 
     @Override

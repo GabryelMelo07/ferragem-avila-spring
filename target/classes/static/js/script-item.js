@@ -26,7 +26,7 @@ function deletarItem(item_id) {
 }
 
 function adicionarItemPorId(id) {
-    var venda_id = $("#venda_id").val();
+    var venda_id = $("#venda_id").val();    
     venda_id = ((venda_id !== "") ? venda_id : 0);
     var quantidade = 1;
     var preco_item = 0;
@@ -61,7 +61,7 @@ function adicionarItemPorId(id) {
                 alert("Produto inexistente2");
             });
 
-            $("#inserir_id").val("");
+            // $("#inserir_id").val("");
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro ao buscar valor do item pelo id: " + xhr.responseText);
@@ -183,12 +183,19 @@ function cancelarVenda(){
 
 function confirmarVenda() {
     var venda_id = $("#venda_id").val();
+    var select = $("#forma_pagamento").val();
+    var option = "";
 
+    if(select == 1) option = "Dinheiro";
+    if(select == 2) option = "Cartão";
+    if(select == 3) option = "Pix";
+    
     $.ajax({
         method: "PUT",
         url: "http://localhost:8081/ferragem-avila/concluir_venda",
         data: {
-            id: venda_id
+            id: venda_id,
+            forma_pagamento: option
         },
         success: function (response) {
             if (response.id != 0) {
@@ -261,4 +268,91 @@ function disableBtns() {
 function enableBtns() {
     document.getElementById("botao_concluir_venda").disabled = false;
     document.getElementById("botao_cancelar_venda").disabled = false;
+}
+
+$(document).ready(function () {
+    // Captura o evento de alteração do select
+    $('#forma_pagamento').change(function () {
+        // Obtém o valor selecionado
+        var selectedOption = $(this).val();
+        var elemento = document.getElementById("div_troco");
+        var elemento2 = document.getElementById("div_troco2");
+
+        if(selectedOption == 1) {
+            elemento.style.display = "flex";
+            elemento2.style.display = "flex";
+        } else {
+            elemento.style.display = "none";
+            elemento2.style.display = "none";
+        }
+    });
+});
+
+$(document).ready(function () {
+    $('#valor_pago').on('input', function () {
+        var total = $("#vlrTotal").val();
+        total = parseFloat(total.replace('R$', '').replace(',', '.').trim());
+        var valor_pago = parseFloat($(this).val());
+        var troco = 0.0;
+
+        if (valor_pago !== '' && valor_pago > total) {
+            troco = (valor_pago - total).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        } else {
+            troco = "Valor pago é insuficiente.";
+        }
+
+        $("#troco").val(troco);
+    });
+});
+
+function limpa_modal_forma_pagamento() {
+    document.getElementById('formFormaPagamento').reset();
+    $('#modalCupomFiscal').modal({ backdrop: 'static', keyboard: false });
+}
+
+function preencherCupomFiscal() {
+    const data_atual = new Date();
+    var venda_id = $("#venda_id").val();
+    var vlr_pago_modal = $("#valor_pago").val();
+    var select = $("#forma_pagamento").val();
+    var forma_pagamento_modal = "";
+    var troco_modal = $("#troco").val();
+
+    if (select == 1) forma_pagamento_modal = "DINHEIRO";
+    if (select == 2) forma_pagamento_modal = "CARTÃO";
+    if (select == 3) forma_pagamento_modal = "PIX";
+
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:8081/ferragem-avila/listar_itens",
+        data: {
+            venda_id: venda_id
+        },
+        success: function (response) {
+
+            $('#data_atual').text(data_atual.toLocaleDateString() + ' ' + data_atual.toLocaleTimeString());
+            $('#nro_venda').text(venda_id);
+            
+            var count_item = 1;
+            var count_valor_itens = 0.0;
+            $('#itens_cupom > tbody > tr').remove();
+            for (var i = 0; i < response.length; i++) {
+                var valor_item = response[i].produto.preco * response[i].quantidade;
+                count_valor_itens += valor_item;
+                $('#itens_cupom').append('<tr id="' + response[i].id + '"><td>' + count_item + '</td><td idabela_descricao">' + response[i].produto.descricao + '</td><td class="icon-centralized">' + response[i].quantidade + 'x ' + valor_item.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) + '</td><td>' + valor_item.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) + '</td></tr>');
+                count_item++;
+            }
+
+            $('#vlr_total_cupom').text(count_valor_itens.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $('#vlr_total_cupom2').text(count_valor_itens.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $('#valor_recebido').text(vlr_pago_modal);
+            $('#vlr_troco').text(troco_modal);
+            $('#data_atual_cupom').text(data_atual.toLocaleDateString());
+            $('#vlr_total_cupom').text(count_valor_itens.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $('#tipo_pagamento').text(forma_pagamento_modal);
+            
+        }
+    }).fail(function (xhr, status, errorThrown) {
+        alert("Erro em listar item: " + xhr.responseText);
+    });
 }

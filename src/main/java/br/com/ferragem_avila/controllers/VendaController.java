@@ -3,6 +3,7 @@ package br.com.ferragem_avila.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.com.ferragem_avila.model.Venda;
 import br.com.ferragem_avila.repository.VendaRepository;
 import org.springframework.http.HttpStatus;
@@ -34,9 +35,10 @@ public class VendaController {
 
     @PutMapping(value = "concluir_venda", params = {"id"})
     @ResponseBody
-    public ResponseEntity<?> concluir_venda(@RequestParam int id) {
+    public ResponseEntity<?> concluir_venda(@RequestParam int id, @RequestParam String forma_pagamento) {
         Venda venda = vendaRepository.load(id);
         venda.setConcluida(true);
+        venda.setForma_pagamento(forma_pagamento);
         Venda v = vendaRepository.update(venda);
         return new ResponseEntity<Venda>(v, HttpStatus.OK);
     }
@@ -51,6 +53,16 @@ public class VendaController {
     @GetMapping(value = "listartodos_vendas")
     public ResponseEntity<Iterable<Venda>> listartodos_vendas() {
         return new ResponseEntity<>(vendaRepository.list(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "listar_por_data", params = {"data"})
+    public ResponseEntity<Iterable<Venda>> listar_por_data(@RequestParam String data) {
+        return new ResponseEntity<>(vendaRepository.listVendaItensByDate(data), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "listItensVenda", params = {"id"})
+    public ResponseEntity<Iterable<Venda>> listItensVenda(@RequestParam int id) {
+        return new ResponseEntity<Iterable<Venda>>(vendaRepository.listItensVenda(id), HttpStatus.OK);
     }
     
 }

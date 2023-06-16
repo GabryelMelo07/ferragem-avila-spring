@@ -64,4 +64,5 @@ public class ItemRepository implements IRepository<Item> {
         String sqlUpdate = "UPDATE item SET quantidade = ? where id = ?;";
         jdbcTemplate.update(sqlUpdate, quantidade, id);
     }
+
 }

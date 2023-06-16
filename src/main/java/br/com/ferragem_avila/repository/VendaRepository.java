@@ -16,21 +16,20 @@ public class VendaRepository implements IRepository<Venda> {
 
     @Override
     public void delete(int id) {
-        // TO DO: AJUSTAR MÉTODO PARA NÃO PERMITIR EXCLUIR VENDA FINALIZADA.
         String sqlDelete = "BEGIN; DELETE FROM item WHERE venda_id = ?; DELETE FROM venda where id = ?; COMMIT;";
         jdbcTemplate.update(sqlDelete, id, id);
     }
 
     @Override
     public Venda update(Venda venda) {
-        String sqlUpdate = "UPDATE venda SET concluida = ? WHERE id = ?;";
-        jdbcTemplate.update(sqlUpdate, venda.getConcluida(), venda.getId());
+        String sqlUpdate = "UPDATE venda SET concluida = ?, forma_pagamento = ? WHERE id = ?;";
+        jdbcTemplate.update(sqlUpdate, venda.getConcluida(), venda.getForma_pagamento(), venda.getId());
         return this.load(venda.getId());
     }
 
     @Override
     public List<Venda> list() {
-        return jdbcTemplate.query("SELECT * FROM venda ORDER BY id ASC", BeanPropertyRowMapper.newInstance(Venda.class));
+        return jdbcTemplate.query("SELECT * FROM venda ORDER BY data_hora DESC", BeanPropertyRowMapper.newInstance(Venda.class));
     }
 
     @Override
@@ -61,6 +60,16 @@ public class VendaRepository implements IRepository<Venda> {
             return item;
         } 
         return null;
+    }
+
+    public List<Venda> listVendaItensByDate(String data) {
+        return jdbcTemplate.query("SELECT * FROM venda WHERE CAST(data_hora as date) = '" + data + "' ORDER BY data_hora DESC;", BeanPropertyRowMapper.newInstance(Venda.class));
+    }
+
+    public List<Venda> listItensVenda(int id) {
+        String sql = "select venda.id as venda, venda.data_hora, venda.forma_pagamento, (select string_agg(item.quantidade || 'x ' || produto.descricao, ', ') as itens from venda inner join item on item.venda_id = venda.id inner join produto on produto.id = item.produto_id where venda.id = ?) from venda where venda.id = ?;";
+        return jdbcTemplate.query(sql, new VendaMapper(), id, id);
+        // return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Venda.class), id, id);
     }
 
 }

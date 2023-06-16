@@ -80,6 +80,25 @@ main .main-content { /* Previnindo que o layout da página seja quebrado quando 
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.panel-full {
+    overflow-y: auto;
+}
+
+.panel-full::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}
+
+.panel-full::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+.panel-full::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+}
+
 .index-panel-info-venda { /* Div pai do lado direito, onde vai as informações da venda, ocupa 20% */
     display: flex;
     flex-direction: column;

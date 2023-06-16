@@ -185,9 +185,103 @@
         </div>
     </div>
 
+    <!-- MODAL DO CUPOM FISCAL -->
+    <div class="modal fade" id="modalCupomFiscal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="modal-body-cupom-fiscal">
+                    <div class="div-extrato-children">
+                        <!-- HEADER -->
+                        <div class="div-extrato-header">
+                            <h2>Ferragem Ávila</h2>
+                            <small>Hidráulica - Elétrica</small>
+                            <small>Ferragem</small>
+                            <small>Rua Bernardo Taveira, 726, Bairro São João</small>
+                            <small>CEP 96213-050 - Rio Grande, RS</small>
+                            <small>(53) 99176-3502</small>
+                            <hr>
+                        </div>
+                        <!-- BODY -->
+                        <div class="div-extrato-body">
+                            <!-- BODY HEADER -->
+                            <div class="div-body-header">
+                                <div class="left">
+                                    <p id="data_atual"></p>
+                                </div>
+                                <div class="right">
+                                    <small>COMPROVANTE DE VENDA</small>
+                                    <h4 id="nro_venda"></h4>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- BODY BODY -->
+                            <div class="div-body-table">
+                                <table id="itens_cupom">
+                                    <thead>
+                                        <tr>
+                                            <th>ITEM</th>
+                                            <th>DESCRIÇÃO</th>
+                                            <th>QTDxVLR.UNIT</th>
+                                            <th>VALOR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="div-body-resume">
+                                <p><strong>Total da Nota R$</strong></p>
+                                <p id="vlr_total_cupom"></p>
+                            </div>
+                            <div class="div-body-resume">
+                                <p><strong>Valor Recebido R$</strong></p>
+                                <p id="valor_recebido"></p>
+                            </div>
+                            <div class="div-body-resume">
+                                <p><strong>Troco R$</strong></p>
+                                <p id="vlr_troco"></p>
+                            </div>
+                            <div class="div-body-resume-payment">
+                                <p><strong>FORMA DE PGTO.:</strong></p>
+                                <p id="forma_pagamento_cupom">À VISTA</p>
+                            </div>
+                        </div>
+                        <!-- BODY FOOTER -->
+                        <div class="div-body-footer">
+                            <div class="div-date-payment">
+                                <p><strong>DATA PGTO.</strong></p>
+                                <p id="data_atual_cupom"></p>
+                            </div>
+                            <div class="div-footer-payment">
+                                <div class="div-payment-value">
+                                    <p><strong>VALOR R$</strong></p>
+                                    <p id="vlr_total_cupom2"></p>
+                                </div>
+                                <div class="div-payment-method">
+                                    <p><strong>TIPO PGTO.</strong></p>
+                                    <p id="tipo_pagamento"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- FOOTER -->
+                        <div class="div-extrato-footer">
+                            <p id="msg_confirmacao">Recebi a(s) mercadoria(s) acima descrita(s), concordando<br>plenamente com o(s)valor(es) descrito(s).</p>
+                            <hr>
+                            <p><strong>* OBRIGADO E VOLTE SEMPRE *</strong></p>
+                            <button type="button" class="btn btn-light" id="btn-imprimir" onclick="confirmarVenda()" data-dismiss="modal">Confirmar e Imprimir <i class="fa-solid fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL PARA ESCOLHER FORMA DE PAGAMENTO DA VENDA -->
     <div class="modal fade" id="modalFormaPagamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Forma de pagamento</h5>
@@ -196,22 +290,36 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" id="formCadastroProduto">
-                        <div class="mb-3">
-                            <div class="form-group col-md-12">
-                                <select class="form-select" id="forma_pagamento">
-                                    <option selected>Selecionar...</option>
-                                    <option value="1">Dinheiro</option>
-                                    <option value="2">Cartão</option>
-                                    <option value="3">Pix</option>
-                                </select>
+                    <form action="" id="formFormaPagamento">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="forma_pagamento">Selecione</label>
                             </div>
+                            <select class="custom-select" id="forma_pagamento">
+                                <option selected value="1">Dinheiro</option>
+                                <option value="2">Cartão</option>
+                                <option value="3">Pix</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group mb-3" id="div_troco">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="valor_pago">Valor</label>
+                            </div>
+                            <input type="number" class="form-control" id="valor_pago">
+                        </div>
+                        
+                        <div class="input-group mb-3" id="div_troco2">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="troco">Troco</label>
+                            </div>
+                            <input type="text" class="form-control" id="troco" readonly="readonly">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="confirmarVenda()">Confirmar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpa_modal_forma_pagamento()">Fechar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal"  data-toggle="modal" data-target="#modalCupomFiscal" onclick="preencherCupomFiscal();limpa_modal_forma_pagamento()">Confirmar</button>
                 </div>
             </div>
         </div>

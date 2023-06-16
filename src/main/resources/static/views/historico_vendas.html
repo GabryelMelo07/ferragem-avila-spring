@@ -53,6 +53,10 @@
                                 class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
 
+                    <div class="input-data-select">
+                        <input type="date" id="data_select" oninput="listarVendasPorData()">
+                    </div>
+
                 </div>
 
                 <div class="panel-row">
@@ -62,6 +66,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Data</th>
+                                    <th>Forma Pagamento</th>
+                                    <th class="icon-centralized">Itens</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +81,39 @@
 
         </main>
 
+    </div>
+
+    <div class="modal fade" id="modalInfoVenda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Informações detalhadas da venda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+    
+                    <table class="table table-striped" id="tabelaResumoVenda">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Venda</th>
+                                <th>Data</th>
+                                <th>Pagamento</th>
+                                <th>Itens</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    
+                        </tbody>
+                    </table>
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"

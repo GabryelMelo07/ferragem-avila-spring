@@ -17,8 +17,12 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public void delete(int id) {
-        String sqlDelete = "DELETE FROM produto where id = ?";
-        jdbcTemplate.update(sqlDelete, id);
+        if (list_sold_products(id).isEmpty()) {
+            String sqlDelete = "DELETE FROM produto where id = ?";
+            jdbcTemplate.update(sqlDelete, id);
+        } else {
+            setInativo(id);
+        }
     }
 
     @Override
@@ -28,23 +32,29 @@ public class ProdutoRepository implements IRepository<Produto> {
         return this.load(produto.getId());
     }
 
+    public Produto setInativo(int produto_id) {
+        String sqlUpdate = "UPDATE produto SET ativo = false where id = ?";
+        jdbcTemplate.update(sqlUpdate, produto_id);
+        return this.load(produto_id);
+    }
+
     @Override
     public List<Produto> list() {
-        return jdbcTemplate.query("SELECT * FROM produto ORDER BY id ASC", BeanPropertyRowMapper.newInstance(Produto.class));
+        return jdbcTemplate.query("SELECT * FROM produto where ativo = true ORDER BY id ASC", BeanPropertyRowMapper.newInstance(Produto.class));
     }
 
-    public List<Produto> list(int venda_id) {
-        return jdbcTemplate.query("SELECT * from produto where produto.id not in (SELECT produto.id from produto inner join item on (produto.id = item.produto_id) where item.venda_id = ?)", BeanPropertyRowMapper.newInstance(Produto.class), venda_id);
+    public List<Produto> list_sold_products(int produto_id) {
+        return jdbcTemplate.query("SELECT * from produto where produto.id in (SELECT produto.id from produto inner join item on (produto.id = item.produto_id) where produto.id = ? and produto.ativo = true);", BeanPropertyRowMapper.newInstance(Produto.class), produto_id);
     }
 
-    public int num_pages() {
-        String selectRows = "SELECT count(*) FROM produto;";
-        int rows = jdbcTemplate.queryForObject(selectRows, Integer.class);
-        return rows / 2 + rows % 2;  // dividir pela quantidade de itens que quer na página
+    public double num_pages() {
+        String selectRows = "SELECT count(*) FROM produto where ativo = true;";
+        double rows = jdbcTemplate.queryForObject(selectRows, Double.class);
+        return Math.ceil(rows / 15.0); // dividir pela quantidade de itens que quer na página
     }
 
     public List<Produto> list_page(int page) {
-        return jdbcTemplate.query("SELECT * FROM produto ORDER BY id ASC LIMIT 2 OFFSET ?;", BeanPropertyRowMapper.newInstance(Produto.class), ((page - 1) * 2));
+        return jdbcTemplate.query("SELECT * FROM produto where ativo = true ORDER BY id ASC LIMIT 15 OFFSET ?;", BeanPropertyRowMapper.newInstance(Produto.class), ((page - 1) * 15));
     }
 
     @Override
@@ -57,10 +67,10 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public Produto load(int id) {
-        String selectRows = "SELECT count(*) FROM produto WHERE id = ?;";        
+        String selectRows = "SELECT count(*) FROM produto WHERE id = ? and ativo = true;";        
         int rows =  jdbcTemplate.queryForObject(selectRows, Integer.class, id);
         if (rows > 0) {        
-            String sqlSelect = "SELECT * FROM produto WHERE id = ?;";
+            String sqlSelect = "SELECT * FROM produto WHERE id = ? and ativo = true;";
             Produto produto = jdbcTemplate.queryForObject(sqlSelect, BeanPropertyRowMapper.newInstance(Produto.class), id);
             return produto;
         } 
@@ -68,11 +78,11 @@ public class ProdutoRepository implements IRepository<Produto> {
     }
 
     public List<Produto> loadByName(String descricao) {
-        return jdbcTemplate.query("SELECT * FROM produto WHERE upper(descricao) LIKE '" + descricao.toUpperCase() + "%' ORDER BY id;", BeanPropertyRowMapper.newInstance(Produto.class));
+        return jdbcTemplate.query("SELECT * FROM produto WHERE upper(descricao) LIKE '" + descricao.toUpperCase() + "%' and ativo = true ORDER BY id;", BeanPropertyRowMapper.newInstance(Produto.class));
     }
 
     public Produto loadByCodBarras(long cod_barras) {
-        return jdbcTemplate.queryForObject("SELECT * FROM produto WHERE cod_barras = ?;", BeanPropertyRowMapper.newInstance(Produto.class), cod_barras);
+        return jdbcTemplate.queryForObject("SELECT * FROM produto WHERE cod_barras = ? and ativo = true;", BeanPropertyRowMapper.newInstance(Produto.class), cod_barras);
     }
 
 }

@@ -1,0 +1,109 @@
+#modal-body-cupom-fiscal {
+    overflow-x: auto;
+    background-color: #FFFFCC;
+}
+
+.div-extrato-children {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.div-extrato-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+hr {
+    width: 100%;
+}
+
+.div-extrato-body, .div-extrato-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.div-extrato-footer {
+    align-items: center;
+}
+
+.div-body-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#nro_venda {
+    margin-left: 98px;
+}
+
+.div-body-table {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5px;
+}
+
+.div-body-table table tr th {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.div-body-table table tr td {
+    text-align: center;
+}
+
+.div-body-resume {
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-body-resume-payment {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.div-body-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-footer-payment {
+    display: flex;
+    gap: 20px;
+}
+
+p {
+    text-align: center;
+}
+
+#msg_confirmacao {
+    font-size: 14px;
+}
+
+#btn-imprimir {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}

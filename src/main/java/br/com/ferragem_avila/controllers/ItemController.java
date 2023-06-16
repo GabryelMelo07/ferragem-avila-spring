@@ -60,6 +60,7 @@ public class ItemController {
                     return new ResponseEntity<Item>(item, HttpStatus.OK);
                 }
             } else {
+                // venda == 0
                 Venda venda = new Venda();
                 venda = vendaRepository.save(venda);
                 item.setVenda(venda);
@@ -89,5 +90,5 @@ public class ItemController {
     public void atualizar_quantidade(@RequestParam int id, @RequestParam int quantidade) {
         itemRepository.updateQuantidade(id, quantidade);
     }
-
+    
 }

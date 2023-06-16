@@ -178,6 +178,7 @@ function deletarProduto(id) {
             data: "idProduto=" + id,
             success: function (response) {
                 $('#' + id).remove();
+                listar_pagina(parseInt($("#pagina-atual").text()));
             }
         }).fail(function (xhr, status, errorThrown) {
             alert("Erro ao deletar produto: " + xhr.responseText);

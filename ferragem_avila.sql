@@ -22,9 +22,9 @@ CREATE TABLE produto (
     id serial,
     descricao text not null,
     preco double precision,
-   -- status boolean default true,
     estoque integer default 0 CHECK (estoque >= 0),
     cod_barras bigint unique,
+    ativo boolean default true,
     primary key (id)
 );
 
@@ -33,6 +33,7 @@ CREATE TABLE venda (
     concluida boolean DEFAULT FALSE,
     -- vendedor_id integer references vendedor (id),
     data_hora timestamp default current_timestamp,
+    forma_pagamento varchar(100),
     primary key (id)
 );
 
@@ -49,13 +50,34 @@ CREATE TABLE item (
 );
 
 INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
-('Prego', 19.99, 100, 123456711);
-
-INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
-('teste2', 100.0, 1000, 123891055);
-
-INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES
-('semEstoque', 100.0, 1, 1121212);
+('Prego', 19.99, 100, 123456711),
+('teste2', 100.0, 1000, 123891055),
+('semEstoque', 100.0, 1, 1121212),
+('semEstoque1', 100.0, 1, 1213123213),
+('semEstoque2', 100.0, 1, 414441141),
+('semEstoque3', 100.0, 1, 564545454),
+('semEstoque4', 100.0, 1, 454545663),
+('semEstoque5', 100.0, 1, 678687),
+('semEstoque6', 100.0, 1, 575674),
+('semEstoque7', 100.0, 1, 34534637),
+('semEstoque8', 100.0, 1, 5676575734),
+('semEstoque9', 100.0, 1, 2345345634),
+('semEstoque10', 100.0, 1, 2436256252),
+('semEstoque11', 100.0, 1, 64566456456),
+('semEstoque12', 100.0, 1, 4535345345),
+('semEstoque13', 100.0, 1, 2323425),
+('semEstoque14', 100.0, 1, 34636363),
+('semEstoque15', 100.0, 1, 1132342342),
+('semEstoque16', 100.0, 1, 4532536),
+('semEstoque17', 100.0, 1, 7658678),
+('semEstoque18', 100.0, 1, 34534535),
+('semEstoque19', 100.0, 1, 56787575),
+('semEstoque20', 100.0, 1, 56784563),
+('semEstoque21', 100.0, 1, 4325263246),
+('semEstoque22', 100.0, 1, 67576575),
+('semEstoque23', 100.0, 1, 25626246),
+('semEstoque24', 100.0, 1, 35463663),
+('semEstoque25', 100.0, 1, 23563456);
 
 CREATE or REPLACE FUNCTION removeProdutoEstoque(integer) RETURNS BOOLEAN AS
 $$

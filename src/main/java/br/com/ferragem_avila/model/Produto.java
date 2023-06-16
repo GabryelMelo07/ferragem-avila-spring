@@ -6,7 +6,8 @@ public class Produto {
     private String descricao;
     private int estoque;
     private double preco;
-    private long cod_barras;  
+    private long cod_barras;
+    private boolean ativo;
 
     public Produto() {
     }
@@ -51,6 +52,14 @@ public class Produto {
         return cod_barras;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
     public void setCod_barras(long cod_barras) {    
         this.cod_barras = cod_barras;
     }
@@ -59,5 +68,5 @@ public class Produto {
     public String toString() {
         return "Produto{" + "id=" + id + ", descricao=" + descricao + ", estoque=" + estoque + ", preco=" + preco + ", cod_barras=" + cod_barras + "}";  
     }
-
+    
 }

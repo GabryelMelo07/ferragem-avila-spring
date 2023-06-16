@@ -83,7 +83,7 @@ public class ProdutoController {
     }
 
     @GetMapping(value = "total_paginas") // Método para listar todos objetos do bd POR PAGINA \\
-    public int total_paginas() {
+    public double total_paginas() {
         return produtoRepository.num_pages();
     }
 }
