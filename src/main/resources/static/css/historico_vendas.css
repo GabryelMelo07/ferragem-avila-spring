@@ -1,0 +1,23 @@
+.filtros {
+    justify-self: flex-start;
+    display: flex;
+    width: 60%;
+    align-items: center;
+    gap: 25px;
+}
+
+.historico-vendas {
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-relatorios {
+    justify-self: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-end;
+    align-items: center;
+    gap: 5px;
+    width: 40%;
+    padding: 5px;
+}

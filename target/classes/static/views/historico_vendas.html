@@ -41,20 +41,27 @@
 
             <div class="main-content">
 
-                <div class="panel-row">
+                <div class="panel-row historico-vendas">
 
-                    <div class="product-panel">
-                        <input id="pesquisa_id_venda" class="form-control" type="number" min="0" max="999999" placeholder="Pesquisar por código(id) da venda...">
+                    <div class="filtros">
+                        <div class="product-panel">
+                            <input id="pesquisa_id_venda" class="form-control" type="number" min="0" max="999999" placeholder="Pesquisar por código(id) da venda...">
+                        </div>
+    
+                        <div class="input-data-select">
+                            <input type="date" id="data_select" oninput="listarVendasPorData()">
+                        </div>
+    
+                        <div id="divSearchBtn" class="product-panel-btn">
+                            <button id="botao_pesquisar" type="submit" class="btn btn-primary"
+                                onclick="pesquisarPorIdVenda()">Pesquisar <i
+                                    class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
                     </div>
 
-                    <div id="divSearchBtn" class="product-panel-btn">
-                        <button id="botao_pesquisar" type="submit" class="btn btn-primary"
-                            onclick="pesquisarPorIdVenda()">Pesquisar <i
-                                class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-
-                    <div class="input-data-select">
-                        <input type="date" id="data_select" oninput="listarVendasPorData()">
+                    <div class="div-relatorios">
+                        <button id="relatorio_dia" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#relatorio-dia">Relatório p/ dia</button>
+                        <button id="relatorio_mes" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#relatorio-mes">Relatório p/ mês</button>
                     </div>
 
                 </div>
@@ -116,10 +123,64 @@
         </div>
     </div>
 
+    <!-- Modal Relatório dia -->
+    <div class="modal fade" id="relatorio-dia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Relatório por dia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="form-relatorio-dia">
+                        <div class="form-group col-md-12">
+                            <input type="date" id="data_select_rel_dia">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="gerarRelatorioDia()">Gerar relatório</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Relatório Mês -->
+    <div class="modal fade" id="relatorio-mes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Relatório por mês</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="form-relatorio-mes">
+                        <div class="form-group col-md-12">
+                            <input type="text" class="form-control" id="input-rel-mes" placeholder="Digite o mês e o ano (mês/ano)...">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="gerarRelatorioMes()">Gerar relatório</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/fontawesome/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"
+        integrity="sha512-jDEmOIskGs/j5S3wBWQAL4pOYy3S5a0y3Vav7BgXHnCVcUBXkf1OqzYS6njmDiKyqes22QEX8GSIZZ5pGk+9nA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../js/script-venda.js"></script>
 
 </body>

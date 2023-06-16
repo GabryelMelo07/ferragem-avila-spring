@@ -64,5 +64,15 @@ public class VendaController {
     public ResponseEntity<Iterable<Venda>> listItensVenda(@RequestParam int id) {
         return new ResponseEntity<Iterable<Venda>>(vendaRepository.listItensVenda(id), HttpStatus.OK);
     }
-    
+
+    @GetMapping(value = "listarVendasPorDia", params = {"data"})
+    public ResponseEntity<Iterable<Venda>> listarVendasPorDia(@RequestParam String data) {
+        return new ResponseEntity<>(vendaRepository.listVendaPorDia(data), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "listarVendasPorMes", params = {"ano", "mes"})
+    public ResponseEntity<Iterable<Venda>> listarVendasPorMes(@RequestParam String ano, @RequestParam String mes) {
+        return new ResponseEntity<>(vendaRepository.listVendaPorMes(ano, mes), HttpStatus.OK);
+    }
+
 }
