@@ -70,9 +70,9 @@ public class VendaController {
         return new ResponseEntity<>(vendaRepository.listVendaPorDia(data), HttpStatus.OK);
     }
 
-    @GetMapping(value = "listarVendasPorMes", params = {"ano", "mes"})
-    public ResponseEntity<Iterable<Venda>> listarVendasPorMes(@RequestParam String ano, @RequestParam String mes) {
-        return new ResponseEntity<>(vendaRepository.listVendaPorMes(ano, mes), HttpStatus.OK);
+    @GetMapping(value = "listarVendasPorMes", params = {"data"})
+    public ResponseEntity<Iterable<Venda>> listarVendasPorMes(@RequestParam String data) {
+        return new ResponseEntity<>(vendaRepository.listVendaPorMes(data), HttpStatus.OK);
     }
 
 }

@@ -111,14 +111,11 @@ function gerarRelatorioDia() {
 
 function gerarRelatorioMes() {
     var data_selecionada = $("#input-rel-mes").val();
-    var split = data_selecionada.split("/");
-    var mes = split[0];
-    var ano = split[1];
     
     $.ajax({
         method: "GET",
         url: "http://localhost:8081/ferragem-avila/listarVendasPorMes",
-        data: { ano: ano, mes: mes },
+        data: { data: data_selecionada },
         success: function (response) {
             const wb = XLSX.utils.book_new();
 

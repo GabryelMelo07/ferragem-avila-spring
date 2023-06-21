@@ -76,8 +76,8 @@ public class VendaRepository implements IRepository<Venda> {
         return jdbcTemplate.query(sql, new VendaMapper());
     }
 
-    public List<Venda> listVendaPorMes(String ano, String mes) {
-        String sql = "select venda.id as venda, venda.data_hora, venda.forma_pagamento, string_agg(item.quantidade || 'x ' || produto.descricao, ', ') as itens from venda inner join item on item.venda_id = venda.id inner join produto on produto.id = item.produto_id where extract(year from venda.data_hora) = '" + ano + "' and extract(month from venda.data_hora) = '" + mes + "' group by venda.id order by venda.data_hora desc;";
+    public List<Venda> listVendaPorMes(String data) {
+        String sql = "select venda.id as venda, venda.data_hora, venda.forma_pagamento, string_agg(item.quantidade || 'x ' || produto.descricao, ', ') as itens from venda inner join item on item.venda_id = venda.id inner join produto on produto.id = item.produto_id where TO_CHAR(venda.data_hora, 'YYYY-MM') LIKE '" + data + "' group by venda.id order by venda.data_hora desc;";
         return jdbcTemplate.query(sql, new VendaMapper());
     }
 
