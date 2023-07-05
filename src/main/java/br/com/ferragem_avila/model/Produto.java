@@ -1,7 +1,5 @@
 package br.com.ferragem_avila.model;
 
-import br.com.ferragem_avila.controllers.ProdutoController;
-
 public class Produto {
 
     private int id;
