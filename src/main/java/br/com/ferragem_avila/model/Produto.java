@@ -1,5 +1,7 @@
 package br.com.ferragem_avila.model;
 
+import br.com.ferragem_avila.controllers.ProdutoController;
+
 public class Produto {
 
     private int id;
@@ -8,8 +10,11 @@ public class Produto {
     private double preco;
     private long cod_barras;
     private boolean ativo;
+    private String foto;
 
     public Produto() {
+        // precisa ou n precisa....
+        // this.foto = null;
     }
 
     public Produto(String descricao) {
@@ -62,6 +67,19 @@ public class Produto {
 
     public void setCod_barras(long cod_barras) {    
         this.cod_barras = cod_barras;
+    }
+
+    public void setFoto(String foto) {
+        /*if (foto != null) {
+            this.foto = ProdutoController.CAMINHO_IMAGENS + foto;
+        } else {
+            this.foto = null;
+        }*/
+        this.foto = foto;
+    }
+
+    public String getFoto() {
+        return foto;
     }
 
     @Override

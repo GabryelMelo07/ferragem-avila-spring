@@ -69,6 +69,7 @@
 							<thead class="thead-dark">
 								<tr>
 									<th>ID</th>
+									<th>Foto</th>
 									<th>Descrição produto</th>
 									<th>Valor</th>
 									<th>Qtd. Estoque</th>
@@ -110,7 +111,7 @@
   		    </div>
   		    <div class="modal-body">
 			
-  		    	<form action="" id="formCadastroProduto">
+  		    	<form action="" id="formCadastroProduto" enctype="multipart/form-data">
 					<div  class="form-group col-md-12">
 						<label class="labelText" for="id">ID:</label>
 						<input type="text" class="form-control" id="id" readonly="readonly">
@@ -133,7 +134,12 @@
 
 					<div class="form-group col-md-12">
 						<label class="labelText" for="cod_barras">Código de Barras:</label> 
-						<input type="number" min="0" max="999999" class="form-control" id="cod_barras" placeholder="Escaneie o código...">
+						<input type="number" class="form-control" id="cod_barras" placeholder="Escaneie o código...">
+					</div>
+
+					<div class="form-group col-md-12">
+						<label class="labelText" for="foto_produto">Foto do produto:</label>
+						<input type="file" class="form-control" id="foto_produto" placeholder="Selecione o arquivo...">
 					</div>
 				</form>
 			
@@ -162,32 +168,37 @@
   		    </div>
   		    <div class="modal-body">
 			
-  		    	<form action="" id="formCadastroProduto">
-								<div  class="form-group col-md-12">
-									<label class="labelText" for="id">ID:</label>
-								 	<input type="text" class="form-control" id="id2" readonly="readonly">
-								</div>
+  		    	<form action="" id="formCadastroProduto" enctype="multipart/form-data">
+					<div  class="form-group col-md-12">
+						<label class="labelText" for="id">ID:</label>
+						<input type="text" class="form-control" id="id2" readonly="readonly">
+					</div>
 
-								<div class="form-group col-md-12">
-									<label class="labelText" for="descricao">Descrição:</label>
-									<input type="text" class="form-control" id="descricao2" placeholder="Digite a descrição...">
-								</div>
-							
-								<div class="form-group col-md-12">
-									<label class="labelText" for="valor">Valor:</label> 
-									<input type="number" min="0" max="999999" step="0.01" class="form-control" id="valor2" placeholder="Digite o valor (somente números)...">
-								</div>
-							
-								<div class="form-group col-md-12">
-									<label class="labelText" for="quantidade">Quantidade no Estoque:</label> 
-									<input type="number" class="form-control" id="quantidade2" placeholder="Digite a quantidade de estoque (somente números)...">
-								</div>
+					<div class="form-group col-md-12">
+						<label class="labelText" for="descricao">Descrição:</label>
+						<input type="text" class="form-control" id="descricao2" placeholder="Digite a descrição...">
+					</div>
+					
+					<div class="form-group col-md-12">
+						<label class="labelText" for="valor">Valor:</label> 
+						<input type="number" min="0" max="999999" step="0.01" class="form-control" id="valor2" placeholder="Digite o valor (somente números)...">
+					</div>
+				
+					<div class="form-group col-md-12">
+						<label class="labelText" for="quantidade">Quantidade no Estoque:</label> 
+						<input type="number" class="form-control" id="quantidade2" placeholder="Digite a quantidade de estoque (somente números)...">
+					</div>
 
-								<div class="form-group col-md-12">
-									<label class="labelText" for="cod_barras">Código de Barras:</label> 
-									<input type="number" min="0" max="999999" class="form-control" id="cod_barras2" placeholder="Escaneie o código...">
-								</div>
-					</form>
+					<div class="form-group col-md-12">
+						<label class="labelText" for="cod_barras">Código de Barras:</label> 
+						<input type="number" class="form-control" id="cod_barras2" placeholder="Escaneie o código...">
+					</div>
+
+					<div class="form-group col-md-12">
+						<label class="labelText" for="foto_produto2">Foto do produto:</label>
+						<input type="file" class="form-control" id="foto_produto2" placeholder="Selecione o arquivo...">
+					</div>
+				</form>
 				
   		    </div>
   		    <div class="modal-footer">

@@ -25,6 +25,7 @@ CREATE TABLE produto (
     estoque integer default 0 CHECK (estoque >= 0),
     cod_barras bigint unique,
     ativo boolean default true,
+    foto text,
     primary key (id)
 );
 

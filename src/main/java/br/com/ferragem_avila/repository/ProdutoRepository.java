@@ -26,9 +26,16 @@ public class ProdutoRepository implements IRepository<Produto> {
     }
 
     @Override
-    public Produto update(Produto produto) {
-        String sqlUpdate = "UPDATE produto SET descricao = ?, preco = ?, estoque = ?, cod_barras = ? where id = ?";
-        jdbcTemplate.update(sqlUpdate, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras(), produto.getId());
+    public Produto update(Produto produto) { // ADICIONAR FOTO PRODUTO AQUI
+        // sem foto
+        if(produto.getFoto() == null) {
+            String sqlUpdate = "UPDATE produto SET descricao = ?, preco = ?, estoque = ?, cod_barras = ? where id = ?";
+            jdbcTemplate.update(sqlUpdate, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras(), produto.getId());
+        } else {
+            // com nova foto / mantem a atual
+            String sqlUpdate = "UPDATE produto SET descricao = ?, preco = ?, estoque = ?, cod_barras = ?, foto = ? where id = ?";
+            jdbcTemplate.update(sqlUpdate, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras(), produto.getFoto(), produto.getId());
+        }
         return this.load(produto.getId());
     }
 
@@ -59,8 +66,15 @@ public class ProdutoRepository implements IRepository<Produto> {
 
     @Override
     public Produto save(Produto produto) {
-        String sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES (?,?,?,?) RETURNING id";         
-        Integer id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras());
+        Integer id;
+        String sqlInsert;
+        if (produto.getFoto() == null){
+            sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES (?,?,?,?) RETURNING id";         
+            id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras());            
+        } else {
+            sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras, foto) VALUES (?,?,?,?,?) RETURNING id";         
+            id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras(), produto.getFoto());            
+        }
         produto.setId(id);
         return produto;
     }

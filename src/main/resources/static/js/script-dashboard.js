@@ -8,11 +8,6 @@ const ctx = document.getElementById('grafico1');
         label: 'Vendas por mês',
         data: [12, 19, 3, 5, 2, 3],
         borderWidth: 1
-      },
-      {
-        label: 'Mês que mais vendeu por ano',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
       }]
     },
     options: {

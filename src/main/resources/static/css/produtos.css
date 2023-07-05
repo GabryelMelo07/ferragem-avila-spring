@@ -148,3 +148,8 @@ input::-webkit-inner-spin-button {
 #pagina-atual {
     height: 35px;
 }
+
+#foto_produto {
+    width: 60px;
+    height: 45px;
+}

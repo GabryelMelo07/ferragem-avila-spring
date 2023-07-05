@@ -1,12 +1,17 @@
 package br.com.ferragem_avila.controllers;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.ferragem_avila.model.Produto;
 import br.com.ferragem_avila.repository.ProdutoRepository;
@@ -14,8 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,21 +28,46 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    // properties
+    public static final String CAMINHO_IMAGENS = "C:/Users/Gabryel/Desktop/if/2023/pbd/ferragem-avila-spring/src/main/resources/static/img/imagens_produtos/"; // Botar caminho relativo
+
     @GetMapping(value = "listartodos_produto") // Método para listar todos objetos do bd \\    
     public ResponseEntity<Iterable<Produto>> listartodos_produto() {
         return new ResponseEntity<>(produtoRepository.list(), HttpStatus.OK);
     }
 
     @PostMapping(value = "salvar_produto")
-    @ResponseBody
-    public ResponseEntity<Produto> salvar_produto(@RequestBody Produto produto) {
-        Produto prod = produtoRepository.save(produto);
-        return new ResponseEntity<Produto>(prod, HttpStatus.CREATED);
+    public ResponseEntity<Produto> salvar_produto(@RequestParam("descricao") String descricao, @RequestParam("preco") double preco, @RequestParam("estoque") int estoque, @RequestParam("cod_barras") long cod_barras, MultipartFile foto) {        
+        Produto p = new Produto();
+        // com foto
+        if (foto != null && foto.getSize() > 0){
+            try {
+                String novoNome = UUID.randomUUID().toString()+foto.getOriginalFilename().substring(foto.getOriginalFilename().indexOf("."), foto.getOriginalFilename().length());
+                File file = new File(CAMINHO_IMAGENS + novoNome);    
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+                stream.write(foto.getBytes());
+                stream.close();                                
+                p.setFoto(novoNome);
+            } catch (Exception e) {
+                System.err.println("Erro!" + e);
+            }
+        }
+        p.setDescricao(descricao);
+        p.setPreco(preco);
+        p.setCod_barras(cod_barras);
+        p.setEstoque(estoque);        
+        return new ResponseEntity<Produto>(produtoRepository.save(p), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "deletar_produto")
     @ResponseBody
     public ResponseEntity<String> deletar_produto(@RequestParam int idProduto) {
+        Produto p = this.produtoRepository.load(idProduto);        
+        // testar o que vem do bd.
+        if (p.getFoto() != null){
+            File file = new File(CAMINHO_IMAGENS + p.getFoto());                
+            file.delete();
+        }
         produtoRepository.delete(idProduto);
         return new ResponseEntity<String>("Produto Deletado.", HttpStatus.OK);
     }
@@ -65,16 +93,45 @@ public class ProdutoController {
         return new ResponseEntity<Produto>(prod, HttpStatus.OK);
     }
 
-    @PutMapping(value = "atualizar_produto")
-    @ResponseBody
-    public ResponseEntity<?> atualizar_produto(@RequestBody Produto produto) {
-
-        if (produto.getId() == 0) {
+    @PostMapping(value = "atualizar_produto")
+    public ResponseEntity<?> atualizar_produto(@RequestParam("id") int id, @RequestParam("descricao") String descricao, @RequestParam("preco") double preco, @RequestParam("estoque") int estoque, @RequestParam("cod_barras") long cod_barras, MultipartFile foto) {
+        // System.out.println("=========");
+        // System.out.println(id);
+        // System.out.println(descricao);
+        // System.out.println(preco);
+        // System.out.println(estoque);
+        // System.out.println(cod_barras);
+        // System.out.println(foto);
+        // System.out.println("=========");
+        
+        if (id == 0) {
             return new ResponseEntity<String>("Informe o Id para atualizar o produto.", HttpStatus.OK);
         }
-
-        Produto prod = produtoRepository.update(produto);
-        return new ResponseEntity<Produto>(prod, HttpStatus.OK);
+        
+        Produto p = this.produtoRepository.load(id);        
+        if (foto != null && foto.getSize() > 0){       
+            if (p.getFoto() != null){
+                File file = new File(CAMINHO_IMAGENS + p.getFoto());                
+                file.delete();
+                p.setFoto(null);
+            }
+            try {
+                String novoNome = UUID.randomUUID().toString()+foto.getOriginalFilename().substring(foto.getOriginalFilename().indexOf("."), foto.getOriginalFilename().length());
+                File file = new File(CAMINHO_IMAGENS + novoNome);    
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+                stream.write(foto.getBytes());
+                stream.close();                                
+                p.setFoto(novoNome);
+            } catch (Exception e) {
+                System.err.println("Erro!" + e);
+            }        
+        }                
+        p.setDescricao(descricao);
+        p.setPreco(preco);
+        p.setCod_barras(cod_barras);
+        p.setEstoque(estoque);  
+        produtoRepository.update(p);
+        return new ResponseEntity<Produto>(p, HttpStatus.OK);
     }
 
     @GetMapping(value = "listar_por_pagina") // Método para listar todos objetos do bd POR PAGINA \\

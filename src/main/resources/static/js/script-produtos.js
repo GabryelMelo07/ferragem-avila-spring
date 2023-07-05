@@ -94,11 +94,25 @@ function pesquisarPorFiltros() {
 // ====================== CADASTRO DE PRODUTOS ====================== \\
 
 function salvarProduto() {
-    var id = $("#id").val();
+    var formData = new FormData();
     var descricao = $("#descricao").val();
     var preco = $("#valor").val();
     var estoque = $("#quantidade").val();
     var cod_barras = $("#cod_barras").val();
+
+    try {
+        var foto = document.getElementById('foto_produto').files[0];
+        formData.append("descricao", descricao);
+        formData.append("preco", preco);
+        formData.append("estoque", estoque);
+        formData.append("cod_barras", cod_barras);
+        formData.append("foto", foto);
+    } catch(e) {        
+        formData.append("descricao", descricao);
+        formData.append("preco", preco);
+        formData.append("estoque", estoque);
+        formData.append("cod_barras", cod_barras);
+    }    
 
     if (descricao == null || descricao != null && descricao.trim() == '') {
         alert('Produtos sem descrição não podem ser cadastrados.');
@@ -108,8 +122,9 @@ function salvarProduto() {
     $.ajax({
         method: "POST",
         url: "http://localhost:8081/ferragem-avila/salvar_produto",
-        data: JSON.stringify({id: id, descricao: descricao, preco: preco, estoque: estoque, cod_barras: cod_barras}),
-        contentType: "application/json; charset=utf-8",
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             $("#id").val(response.id);
             document.getElementById('formCadastroProduto').reset();
@@ -123,6 +138,7 @@ function salvarProduto() {
 
 // Função que salva o produto no Banco de dados após ser atualizado.
 function atualizarProduto() {
+    var formData = new FormData();
     var id = $("#id2").val();
     var descricao = $("#descricao2").val();
     var preco = $("#valor2").val();
@@ -134,11 +150,30 @@ function atualizarProduto() {
         return;
     }
 
+    try {
+        var foto = document.getElementById('foto_produto2').files[0];
+        // pra saber
+        formData.append("id", id);
+        formData.append("descricao", descricao);
+        formData.append("preco", preco);
+        formData.append("estoque", estoque);
+        formData.append("cod_barras", cod_barras);
+        formData.append("foto", foto);
+    } catch (e) {
+        // pra saber
+        formData.append("id", id);
+        formData.append("descricao", descricao);
+        formData.append("preco", preco);
+        formData.append("estoque", estoque);
+        formData.append("cod_barras", cod_barras);
+    } 
+
     $.ajax({
-        method: "PUT",
+        method: "POST",
         url: "http://localhost:8081/ferragem-avila/atualizar_produto",
-        data: JSON.stringify({id: id, descricao: descricao, preco: preco, estoque: estoque, cod_barras: cod_barras}),
-        contentType: "application/json; charset=utf-8",
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             $("#id").val(response.id);
             document.getElementById('formCadastroProduto').reset();
@@ -162,6 +197,7 @@ function loadProduto(id) {
             $("#valor2").val(response.preco);
             $("#quantidade2").val(response.estoque);
             $("#cod_barras2").val(response.cod_barras);
+            $("#foto2").val(response.foto);
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro ao atualizar produto: " + xhr.responseText);
@@ -198,8 +234,13 @@ function listar_pagina(page) {
         success: function (response) {
             $('#tabelaProdutos > tbody > tr').remove();
             for (var i = 0; i < response.length; i++) {
-                $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
+                if (response[i].foto != undefined){
+                    $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_foto"><img id="foto_produto" src="./../img/imagens_produtos/' + response[i].foto + '" alt="foto_produto"></td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
                     { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="loadProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                } else{
+                    $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
+                    { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="loadProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                }
             }
         }
     }).fail(function (xhr, status, errorThrown) {
