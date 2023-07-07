@@ -15,6 +15,8 @@ public class VendaMapper implements RowMapper<Venda> {
         venda.setDataHora(rs.getTimestamp("data_hora").toLocalDateTime().toLocalDate());
         venda.setForma_pagamento(rs.getString("forma_pagamento"));
         venda.setItensString(rs.getString("itens"));
+        
+        // venda.setVendedor(rs.getInt("vendedor_id"));
         return venda;
     }
     

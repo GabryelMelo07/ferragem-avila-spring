@@ -13,7 +13,7 @@
     <!-- Quando for criar as novas páginas na pasta views, ajustar todos os diretórios incluindo ../ -->
 </head>
 
-<body onload="listarVendas()">
+<body onload="loadUserArea();listarVendas()">
 
     <div class="flex-div">
 
@@ -24,11 +24,20 @@
             </div>
             <div class="menu">
                 <ul>
-                    <li><i class="fa-solid fa-cart-arrow-down"></i> <a href="../index.html">Página inicial</a></li>
+                    <li><i class="fa-solid fa-cart-arrow-down"></i> <a href="venda.html">Página inicial</a></li>
                     <li><i class="fa-solid fa-box"></i> <a href="produtos.html">Produtos</a></li>
                     <li><i class="fa-solid fa-list"></i> <a href="historico_vendas.html">Histórico de vendas</a></li>
                     <li><i class="fa-solid fa-chart-line"></i> <a href="dashboard.html">Dashboard</a></li>
                 </ul>
+
+                <div class="user-area">
+                    <img id="userImage" src="../img/imagens_perfil/sem_imagem_user.png" alt="imagem do vendedor">
+                    <div class="info-user">
+                        <p id="userId"></p>
+                        <p id="username"></p>
+                    </div>
+                    <button id="logout-btn" onclick="logout()"><i id="logout-img" class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
             </div>
         </aside>
 

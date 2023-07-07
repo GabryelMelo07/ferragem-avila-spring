@@ -7,327 +7,34 @@
     <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="plugins/fontawesome/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="../img/screwdriver-wrench-solid.svg">
+    <link rel="icon" type="image/x-icon" href="img/screwdriver-wrench-solid.svg">
     <title>Ferragem Avila</title>
     <!-- Quando for criar as novas páginas na pasta views, ajustar todos os diretórios incluindo ../ -->
 </head>
-<body onload="loadVendaLocalStorage()">
+<body>
 
-    <div class="flex-div">
-
-        <aside class="sidebar-left">
-            <div class="sidebar-title">
-                <img src="img/logo.jpg" alt="Logo Ferragem Avila">
-                <h2>Ferragem Avila PDV</h2>
-            </div>
-            <div class="menu">
-                <ul>
-                    <li>
-                        <i class="fa-solid fa-cart-arrow-down"></i>
-                        <a href="index.html">Página inicial</a>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-box"></i>
-                        <a href="views/produtos.html">Produtos</a>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-list"></i>
-                        <a href="views/historico_vendas.html">Histórico de vendas</a>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-chart-line"></i>
-                        <a href="views/dashboard.html">Dashboard</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-        
-        <main>
-        
-            <header>
-                <i class="fa-solid fa-cart-arrow-down"></i>
-                <p class="header-title">Venda</p>
-            </header>
-        
-            <div class="main-content">
-
-                <div class="panel-row">
-
-                    <div id="divPesquisaId-index" class="index-panel">
-                        <input id="inserir_id" class="form-control" type="number" min="0" max="999999" placeholder="Inserir por id...">
-                    </div>
-                    
-                    <div class="index-panel">
-                        <input id="inserir_cod_barras" class="form-control" type="number" min="0" max="999999" placeholder="Inserir por código de barras...">
-                    </div>
-                    
-                    <div class="index-panel-btn">
-                        <button id="botao_adicionar" type="submit" class="btn btn-primary" onclick="adicionarItem()">Adicionar</button>
-                    </div>
-
-                    <div class="index-panel-nro-venda">
-                        <input id="venda_id" class="form-control" type="number" readonly="readonly">
-                    </div>
-
-                </div> 
-                
-                <!-- Fim da linha 1 -->
-                
-                <div class="index-panel-row-venda">
-
-                    <div class="panel-full">
-                        <table id="resumoVenda" class="table table-striped">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Descrição Produto</th>
-                                    <th class="icon-centralized">Valor</th>
-                                    <th class="icon-centralized">Qtd. Produto</th>
-                                    <th class="icon-centralized">Código de barras</th>
-                                    <th class="icon-centralized">Editar</th>
-                                    <th class="icon-centralized">Excluir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                        
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="index-panel-info-venda">
-                        <div class="index-panel-info">
-                            <fieldset>
-                                <legend>Número do item</legend>
-                                <input id="nroItem" class="form-control" type="number" min="0" max="999999" readonly="readonly">
-                            </fieldset>
-                        </div>
-                        
-                        <div class="index-panel-info">
-                            <fieldset>
-                                <legend>Descrição do item</legend>
-                                <input id="descItem" class="form-control" type="text" readonly="readonly">
-                            </fieldset>
-                        </div>
-                        
-                        <div class="index-panel-info">
-                            <fieldset>
-                                <legend>Quantidade</legend>
-                                <input id="qtd2" class="form-control" type="number" min="0" max="999999" readonly="readonly">
-                            </fieldset>
-                        </div>
-
-                        <div class="index-panel-info">
-                            <fieldset>
-                                <legend>Vlr. unitário</legend>
-                                <input id="vlrUnit" class="form-control" type="text" readonly="readonly">
-                            </fieldset>
-                        </div>
-                        
-                        <div class="index-panel-info">
-                            <fieldset>
-                                <legend>Valor total item</legend>
-                                <input id="vlrTotal" class="form-control" type="text" readonly="readonly">
-                            </fieldset>
-                        </div>
-
-                        <div class="index-panel-info">
-                            <fieldset>
-                                <legend>Total a pagar</legend>
-                                <input id="totalPag" class="form-control" type="text" readonly="readonly">
-                            </fieldset>
-                        </div>
-                        
-                        <div class="index-panel-info-btn">
-                            <button id="botao_cancelar_venda" type="button" class="btn btn-danger" onclick="cancelarVenda()">Cancelar</button>
-                            <button id="botao_concluir_venda" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalFormaPagamento">Concluir</button>
-                        </div>
-                    </div>
-                    
+    <div class="out-box">
+        <div class="centralized_box">
+            <form class="formulario_login">
+                <div class="form-outline mb-4">
+                    <input type="email" id="username_login" class="form-control" />
+                    <label class="form-label" for="username_login">Nome de usuário</label>
                 </div>
-                
-            </div>
-        
-        </main>
-        
-    </div>    
-
-    <!-- MODAL DE ATUALIZAR QTD DO ITEM -->
-
-    <div class="modal fade" id="modalAtualizarQtdItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Alterar quantidade</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="form-outline mb-4">
+                    <input type="password" id="password_login" class="form-control" />
+                    <label class="form-label" for="password_login">Senha</label>
                 </div>
-                <div class="modal-body">
-    
-                    <form action="" id="formCadastroProduto">
-                        <div class="form-group col-md-12">
-                            <label class="labelText" for="id">ID:</label>
-                            <input type="text" class="form-control" id="id_att_item" readonly="readonly">
-                        </div>
-                    
-                        <div class="form-group col-md-12">
-                            <label class="labelText" for="quantidadeProd">Quantidade do Produto:</label>
-                            <input type="number" class="form-control" id="quantidadeProd" placeholder="Digite a quantidade de produtos do item...">
-                        </div>
-                    </form>
-    
+                <button type="button" class="btn btn-primary btn-block mb-4" onclick="logar()">Entrar</button>
+                <div class="text-center">
+                    <a href="views/registrar.html">Registrar vendedor</a>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success"  data-dismiss="modal" onclick="atualizarItem()">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DO CUPOM FISCAL -->
-    <div class="modal fade" id="modalCupomFiscal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-body" id="modal-body-cupom-fiscal">
-                    <div class="div-extrato-children">
-                        <!-- HEADER -->
-                        <div class="div-extrato-header">
-                            <h2>Ferragem Ávila</h2>
-                            <small>Hidráulica - Elétrica</small>
-                            <small>Ferragem</small>
-                            <small>Rua Bernardo Taveira, 726, Bairro São João</small>
-                            <small>CEP 96213-050 - Rio Grande, RS</small>
-                            <small>(53) 99176-3502</small>
-                            <hr>
-                        </div>
-                        <!-- BODY -->
-                        <div class="div-extrato-body">
-                            <!-- BODY HEADER -->
-                            <div class="div-body-header">
-                                <div class="left">
-                                    <p id="data_atual"></p>
-                                </div>
-                                <div class="right">
-                                    <small>COMPROVANTE DE VENDA</small>
-                                    <h4 id="nro_venda"></h4>
-                                </div>
-                            </div>
-                            <hr>
-                            <!-- BODY BODY -->
-                            <div class="div-body-table">
-                                <table id="itens_cupom">
-                                    <thead>
-                                        <tr>
-                                            <th>ITEM</th>
-                                            <th>DESCRIÇÃO</th>
-                                            <th>QTDxVLR.UNIT</th>
-                                            <th>VALOR</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <hr>
-                            <div class="div-body-resume">
-                                <p><strong>Total da Nota R$</strong></p>
-                                <p id="vlr_total_cupom"></p>
-                            </div>
-                            <div class="div-body-resume">
-                                <p><strong>Valor Recebido R$</strong></p>
-                                <p id="valor_recebido"></p>
-                            </div>
-                            <div class="div-body-resume">
-                                <p><strong>Troco R$</strong></p>
-                                <p id="vlr_troco"></p>
-                            </div>
-                            <div class="div-body-resume-payment">
-                                <p><strong>FORMA DE PGTO.:</strong></p>
-                                <p id="forma_pagamento_cupom">À VISTA</p>
-                            </div>
-                        </div>
-                        <!-- BODY FOOTER -->
-                        <div class="div-body-footer">
-                            <div class="div-date-payment">
-                                <p><strong>DATA PGTO.</strong></p>
-                                <p id="data_atual_cupom"></p>
-                            </div>
-                            <div class="div-footer-payment">
-                                <div class="div-payment-value">
-                                    <p><strong>VALOR R$</strong></p>
-                                    <p id="vlr_total_cupom2"></p>
-                                </div>
-                                <div class="div-payment-method">
-                                    <p><strong>TIPO PGTO.</strong></p>
-                                    <p id="tipo_pagamento"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <!-- FOOTER -->
-                        <div class="div-extrato-footer">
-                            <p id="msg_confirmacao">Recebi a(s) mercadoria(s) acima descrita(s), concordando<br>plenamente com o(s)valor(es) descrito(s).</p>
-                            <hr>
-                            <p><strong>* OBRIGADO E VOLTE SEMPRE *</strong></p>
-                            <button type="button" class="btn btn-light" id="btn-imprimir" onclick="confirmarVenda()" data-dismiss="modal">Confirmar e Imprimir <i class="fa-solid fa-print"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL PARA ESCOLHER FORMA DE PAGAMENTO DA VENDA -->
-    <div class="modal fade" id="modalFormaPagamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Forma de pagamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="" id="formFormaPagamento">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="forma_pagamento">Selecione</label>
-                            </div>
-                            <select class="custom-select" id="forma_pagamento">
-                                <option selected value="1">Dinheiro</option>
-                                <option value="2">Cartão</option>
-                                <option value="3">Pix</option>
-                            </select>
-                        </div>
-                        
-                        <div class="input-group mb-3" id="div_troco">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="valor_pago">Valor</label>
-                            </div>
-                            <input type="number" class="form-control" id="valor_pago">
-                        </div>
-                        
-                        <div class="input-group mb-3" id="div_troco2">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="troco">Troco</label>
-                            </div>
-                            <input type="text" class="form-control" id="troco" readonly="readonly">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpa_modal_forma_pagamento()">Fechar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal"  data-toggle="modal" data-target="#modalCupomFiscal" onclick="preencherCupomFiscal();limpa_modal_forma_pagamento()">Confirmar</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="plugins/fontawesome/js/all.min.js"></script>    
-    <script src="js/script-item.js"></script>
+    <script src="js/script-login.js"></script>
 </body>
 </html>

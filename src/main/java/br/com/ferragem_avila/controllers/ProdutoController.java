@@ -29,8 +29,8 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
 
     // properties
-    public static final String CAMINHO_IMAGENS = "C:/Users/Gabryel/Desktop/if/2023/pbd/ferragem-avila-spring/src/main/resources/static/img/imagens_produtos/"; // Botar caminho relativo
-
+    public static final String CAMINHO_IMAGENS = System.getProperty("user.dir") + "/src/main/resources/static/img/imagens_produtos/";
+    
     @GetMapping(value = "listartodos_produto") // Método para listar todos objetos do bd \\    
     public ResponseEntity<Iterable<Produto>> listartodos_produto() {
         return new ResponseEntity<>(produtoRepository.list(), HttpStatus.OK);
@@ -64,7 +64,7 @@ public class ProdutoController {
     public ResponseEntity<String> deletar_produto(@RequestParam int idProduto) {
         Produto p = this.produtoRepository.load(idProduto);        
         // testar o que vem do bd.
-        if (p.getFoto() != null){
+        if (p.getFoto() != null && !p.getFoto().equals("sem_imagem.png")){
             File file = new File(CAMINHO_IMAGENS + p.getFoto());                
             file.delete();
         }
@@ -95,14 +95,6 @@ public class ProdutoController {
 
     @PostMapping(value = "atualizar_produto")
     public ResponseEntity<?> atualizar_produto(@RequestParam("id") int id, @RequestParam("descricao") String descricao, @RequestParam("preco") double preco, @RequestParam("estoque") int estoque, @RequestParam("cod_barras") long cod_barras, MultipartFile foto) {
-        // System.out.println("=========");
-        // System.out.println(id);
-        // System.out.println(descricao);
-        // System.out.println(preco);
-        // System.out.println(estoque);
-        // System.out.println(cod_barras);
-        // System.out.println(foto);
-        // System.out.println("=========");
         
         if (id == 0) {
             return new ResponseEntity<String>("Informe o Id para atualizar o produto.", HttpStatus.OK);
@@ -110,7 +102,7 @@ public class ProdutoController {
         
         Produto p = this.produtoRepository.load(id);        
         if (foto != null && foto.getSize() > 0){       
-            if (p.getFoto() != null){
+            if (p.getFoto() != null && !p.getFoto().equals("sem_imagem.png")) {
                 File file = new File(CAMINHO_IMAGENS + p.getFoto());                
                 file.delete();
                 p.setFoto(null);

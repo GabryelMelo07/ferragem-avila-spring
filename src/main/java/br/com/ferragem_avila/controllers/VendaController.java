@@ -5,7 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ferragem_avila.model.Venda;
+import br.com.ferragem_avila.model.Vendedor;
 import br.com.ferragem_avila.repository.VendaRepository;
+import br.com.ferragem_avila.repository.VendedorRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,9 @@ public class VendaController {
 
     @Autowired
     private VendaRepository vendaRepository;
+
+    @Autowired
+    private VendedorRepository vendedorRepository;
 
     @PostMapping(value = "salvar_venda")
     @ResponseBody
@@ -35,10 +41,14 @@ public class VendaController {
 
     @PutMapping(value = "concluir_venda", params = {"id"})
     @ResponseBody
-    public ResponseEntity<?> concluir_venda(@RequestParam int id, @RequestParam String forma_pagamento) {
+    public ResponseEntity<?> concluir_venda(@RequestParam int id, @RequestParam String forma_pagamento, @RequestParam int vendedor_id) {
         Venda venda = vendaRepository.load(id);
         venda.setConcluida(true);
         venda.setForma_pagamento(forma_pagamento);
+
+        Vendedor vendedor = vendedorRepository.loadById(vendedor_id);
+        venda.setVendedor(vendedor);
+        
         Venda v = vendaRepository.update(venda);
         return new ResponseEntity<Venda>(v, HttpStatus.OK);
     }

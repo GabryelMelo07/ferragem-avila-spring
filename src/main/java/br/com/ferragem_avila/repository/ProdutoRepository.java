@@ -28,7 +28,7 @@ public class ProdutoRepository implements IRepository<Produto> {
     @Override
     public Produto update(Produto produto) { // ADICIONAR FOTO PRODUTO AQUI
         // sem foto
-        if(produto.getFoto() == null) {
+        if(produto.getFoto() == null || produto.getFoto().equals("sem_imagem.png")) {
             String sqlUpdate = "UPDATE produto SET descricao = ?, preco = ?, estoque = ?, cod_barras = ? where id = ?";
             jdbcTemplate.update(sqlUpdate, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras(), produto.getId());
         } else {
@@ -69,7 +69,7 @@ public class ProdutoRepository implements IRepository<Produto> {
         Integer id;
         String sqlInsert;
         if (produto.getFoto() == null){
-            sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras) VALUES (?,?,?,?) RETURNING id";         
+            sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras, foto) VALUES (?,?,?,?, 'sem_foto.png') RETURNING id";         
             id = jdbcTemplate.queryForObject(sqlInsert, Integer.class, produto.getDescricao(), produto.getPreco(), produto.getEstoque(), produto.getCod_barras());            
         } else {
             sqlInsert = "INSERT INTO produto (descricao, preco, estoque, cod_barras, foto) VALUES (?,?,?,?,?) RETURNING id";         

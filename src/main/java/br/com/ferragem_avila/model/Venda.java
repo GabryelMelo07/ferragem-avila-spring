@@ -11,13 +11,14 @@ public class Venda {
     private ArrayList<Item> itens;
     private String forma_pagamento;
     private String itensString;
-    // implementar vendedor
+    private Vendedor vendedor;
 
-    public Venda(LocalDate data, boolean concluida, ArrayList<Item> itens, String forma_pagamento) {
+    public Venda(LocalDate data, boolean concluida, ArrayList<Item> itens, String forma_pagamento, Vendedor vendedor) {
         this.data = data;
         this.concluida = concluida;
         this.itens = itens;
         this.forma_pagamento = forma_pagamento;
+        this.vendedor = vendedor;
     }
 
     public Venda() {
@@ -72,9 +73,17 @@ public class Venda {
         return itensString;
     }
 
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
     @Override
     public String toString() {
-        return String.format("Venda: %d, %s, %b  -  Itens: %s", this.id, this.data.toString(), this.concluida, this.itens);
+        return String.format("Venda: %d, %s, %b, %s  -  Itens: %s", this.id, this.data.toString(), this.concluida, this.vendedor, this.itens);
     }
 
 }

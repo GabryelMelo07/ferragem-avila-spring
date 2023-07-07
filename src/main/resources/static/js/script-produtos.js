@@ -175,14 +175,15 @@ function atualizarProduto() {
         processData: false,
         contentType: false,
         success: function (response) {
-            $("#id").val(response.id);
             document.getElementById('formCadastroProduto').reset();
-            listar_pagina(parseInt($("#pagina-atual").text()));
+            // listar_pagina(parseInt($("#pagina-atual").text()));
+        },
+        complete: function (r) {
+            setTimeout(() => listar_pagina(1), 150);
         }
     }).fail(function (xhr, status, errorThrown) {
         alert("Erro ao atualizar produto: " + xhr.responseText);
     });
-
 }
 
 // Função que atualiza o produto.
@@ -235,11 +236,8 @@ function listar_pagina(page) {
             $('#tabelaProdutos > tbody > tr').remove();
             for (var i = 0; i < response.length; i++) {
                 if (response[i].foto != undefined){
-                    $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_foto"><img id="foto_produto" src="./../img/imagens_produtos/' + response[i].foto + '" alt="foto_produto"></td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
-                    { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="loadProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
-                } else{
-                    $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td id="tabela_descricao">' + response[i].descricao + '</td><td id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
-                    { style: "currency", currency: "BRL" }) + '</td><td id="tabela_estoque">' + response[i].estoque + '</td><td id="tabela_cod_barras">' + response[i].cod_barras + '</td><td id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="loadProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
+                    $('#tabelaProdutos > tbody').append('<tr id="' + response[i].id + '"><td id="tabela_id">' + response[i].id + '</td><td class="icon-centralized" id="tabela_foto"><img class="foto_produto_class" id="foto_produto_' + response[i].id +'" src="./../img/imagens_produtos/' + response[i].foto + '" alt="foto_produto"></td><td class="icon-centralized" id="tabela_descricao">' + response[i].descricao + '</td><td class="icon-centralized" id="tabela_valor">' + response[i].preco.toLocaleString("pt-BR",
+                    { style: "currency", currency: "BRL" }) + '</td><td class="icon-centralized" id="tabela_estoque">' + response[i].estoque + '</td><td class="icon-centralized" id="tabela_cod_barras">' + response[i].cod_barras + '</td><td class="icon-centralized" id="tabela_btn_editar" class="icon-centralized"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAtualizaProduto" onclick="loadProduto(' + response[i].id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td><td class="icon-centralized" id="tabela_btn_deletar" class="icon-centralized"><button type="button" class="btn btn-danger" onclick="deletarProduto(' + response[i].id + ')"><i class="fa-solid fa-trash-can"></i></button></td></tr>');
                 }
             }
         }
@@ -284,3 +282,18 @@ function previous_page() {
     });
 }
 
+function loadUserArea() {
+    var userId = localStorage.getItem("userId");
+    var username = localStorage.getItem("username");
+    var userImage = localStorage.getItem("userImage");
+
+    $("#userId").text("Id:" + userId);
+    $("#username").text(username);
+
+    const userActualImage = document.querySelector("#userImage");
+    if (userImage.trim() == "") {
+        userActualImage.setAttribute("src", "../img/imagens_perfil/sem_imagem_user.png");
+    } else {
+        userActualImage.setAttribute("src", "../img/imagens_perfil/" + userImage);
+    }
+}

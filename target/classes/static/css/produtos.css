@@ -149,7 +149,7 @@ input::-webkit-inner-spin-button {
     height: 35px;
 }
 
-#foto_produto {
+.foto_produto_class {
     width: 60px;
     height: 45px;
 }

@@ -9,6 +9,31 @@ function loadVendaLocalStorage(){
     }
 }
 
+function loadUserArea() {
+    var userId = localStorage.getItem("userId");
+    var username = localStorage.getItem("username");
+    var userImage = localStorage.getItem("userImage");
+
+    $("#userId").text("Id:" + userId);
+    $("#username").text(username);
+
+    const userActualImage = document.querySelector("#userImage");
+    if (userImage.trim() == "") {
+        userActualImage.setAttribute("src", "../img/imagens_perfil/sem_imagem_user.png");
+    } else {
+        userActualImage.setAttribute("src", "../img/imagens_perfil/" + userImage);
+    }
+}
+
+function logout() {
+    localStorage.setItem("userId", "");
+    localStorage.setItem("username", "");
+    localStorage.setItem("userImage", "");
+
+    const url = window.location.protocol + "//" + window.location.host;
+    window.location.replace(url + "/ferragem-avila/index.html");
+}
+
 function deletarItem(item_id) {
     $.ajax({
         method: "GET",
@@ -183,6 +208,7 @@ function cancelarVenda(){
 
 function confirmarVenda() {
     var venda_id = $("#venda_id").val();
+    var vendedor_id = localStorage.getItem("userId");
     var select = $("#forma_pagamento").val();
     var option = "";
 
@@ -195,6 +221,7 @@ function confirmarVenda() {
         url: "http://localhost:8081/ferragem-avila/concluir_venda",
         data: {
             id: venda_id,
+            vendedor_id: vendedor_id,
             forma_pagamento: option
         },
         success: function (response) {

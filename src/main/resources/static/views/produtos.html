@@ -11,7 +11,7 @@
 <title>Ferragem Avila</title>
 <!-- Quando for criar as novas páginas na pasta views, ajustar todos os diretórios incluindo ../ -->
 </head>
-<body onload="listar_pagina(1)">
+<body onload="loadUserArea();listar_pagina(1)">
 
 	<div class="flex-div">
 
@@ -22,11 +22,20 @@
 			</div>
 			<div class="menu">
 				<ul>
-					<li><i class="fa-solid fa-cart-arrow-down"></i> <a href="../index.html">Página inicial</a></li>
+					<li><i class="fa-solid fa-cart-arrow-down"></i> <a href="venda.html">Página inicial</a></li>
 					<li><i class="fa-solid fa-box"></i> <a href="produtos.html">Produtos</a></li>
 					<li><i class="fa-solid fa-list"></i> <a href="historico_vendas.html">Histórico de vendas</a></li>
 					<li><i class="fa-solid fa-chart-line"></i> <a href="dashboard.html">Dashboard</a></li>
 				</ul>
+
+				<div class="user-area">
+					<img id="userImage" src="../img/imagens_perfil/sem_imagem_user.png" alt="imagem do vendedor">
+					<div class="info-user">
+						<p id="userId"></p>
+						<p id="username"></p>
+					</div>
+					<button id="logout-btn" onclick="logout()"><i id="logout-img" class="fa-solid fa-right-from-bracket"></i></button>
+				</div>
 			</div>
 		</aside>
 
@@ -68,12 +77,12 @@
 						<table class="table table-striped" id="tabelaProdutos">
 							<thead class="thead-dark">
 								<tr>
-									<th>ID</th>
-									<th>Foto</th>
-									<th>Descrição produto</th>
-									<th>Valor</th>
-									<th>Qtd. Estoque</th>
-									<th>Código de barras</th>
+									<th class="icon-centralized">ID</th>
+									<th class="icon-centralized">Foto</th>
+									<th class="icon-centralized">Descrição produto</th>
+									<th class="icon-centralized">Valor</th>
+									<th class="icon-centralized">Qtd. Estoque</th>
+									<th class="icon-centralized">Código de barras</th>
 									<th class="icon-centralized">Editar</th>
 									<th class="icon-centralized">Excluir</th>
 								</tr>

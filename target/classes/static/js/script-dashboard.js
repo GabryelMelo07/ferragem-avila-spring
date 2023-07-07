@@ -123,3 +123,19 @@ const ctx6 = document.getElementById('grafico6');
       }
     }
 });
+
+function loadUserArea() {
+  var userId = localStorage.getItem("userId");
+  var username = localStorage.getItem("username");
+  var userImage = localStorage.getItem("userImage");
+
+  $("#userId").text("Id:" + userId);
+  $("#username").text(username);
+
+  const userActualImage = document.querySelector("#userImage");
+  if (userImage.trim() == "") {
+    userActualImage.setAttribute("src", "../img/imagens_perfil/sem_imagem_user.png");
+  } else {
+    userActualImage.setAttribute("src", "../img/imagens_perfil/" + userImage);
+  }
+}

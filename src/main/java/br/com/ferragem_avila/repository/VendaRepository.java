@@ -22,8 +22,8 @@ public class VendaRepository implements IRepository<Venda> {
 
     @Override
     public Venda update(Venda venda) {
-        String sqlUpdate = "UPDATE venda SET concluida = ?, forma_pagamento = ? WHERE id = ?;";
-        jdbcTemplate.update(sqlUpdate, venda.getConcluida(), venda.getForma_pagamento(), venda.getId());
+        String sqlUpdate = "UPDATE venda SET concluida = ?, forma_pagamento = ?, vendedor_id = ? WHERE id = ?;";
+        jdbcTemplate.update(sqlUpdate, venda.getConcluida(), venda.getForma_pagamento(), venda.getVendedor().getId(), venda.getId());
         return this.load(venda.getId());
     }
 

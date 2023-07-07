@@ -62,3 +62,49 @@ div.menu ul li a {
 div.menu ul li a:hover {
     color: #4d4d4d;
 }
+
+.user-area {
+    width: 215px;
+    height: 70px;
+    position: fixed;
+    bottom: 5%;
+    margin-left: 15px;
+    display: flex;
+    flex: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.info-user {
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    padding-top: 15px;
+}
+
+#username, #userId {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+#userImage {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+#logout-img {
+    font-size: 20px;
+}
+
+#logout-btn {
+    border: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+}
+
